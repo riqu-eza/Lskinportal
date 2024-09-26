@@ -1,29 +1,33 @@
 /* eslint-disable react/prop-types */
 
+import { Link } from "react-router-dom";
+import HoverButton from "../ux/HoverButton";
+
 const ProductCard = ({ product }) => {
+  console.log("prod", product);
+  console.log("id", product._id);
   return (
-    <div className="w-[350px] h-[500px]  p-8  flex flex-col ">
+    <div className="w-[350px] h-[500px] p-8 flex flex-col">
       {/* Product Image */}
-      <div className="flex justify-center items-center h-[70%]">
+      <Link
+        to={`/product/${product._id}`}
+        className="flex justify-center items-center h-[70%]"
+      >
         <img
           src={product.imageUrls}
           alt={product.name}
-          className=" h-full object-cover"
+          className="h-full w-full object-cover" // Ensure the image takes full height and width
         />
-      </div>
+      </Link>
 
       {/* Product Name */}
       <h3 className="text-sm font-medium text-center mt-2">{product.name}</h3>
-      <h3 className="text-sm font-medium  text-center mt-2">{product.price}</h3>
+      <h3 className="text-sm font-medium text-center mt-2">{product.price}</h3>
 
       {/* Action Buttons */}
-      <div className="mt-2 flex justify-center   gap-3">
-        <button className="bg-green-500 hover:bg-green-700 text-white text-xs font-semibold py-1 px-2 rounded">
-          Add to Cart
-        </button>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white text-xs font-semibold py-1 px-2 rounded">
-          Buy Now
-        </button>
+      <div className="mt-6 flex flex-col gap-6 p-3">
+        <HoverButton pretittle={'continue Shopping'} title="Add to Cart" link={`/cart/${product._id}`} />
+        <HoverButton  pretittle={'check-out'} title="Buy Now" link={`/buy/${product._id}`} />
       </div>
     </div>
   );

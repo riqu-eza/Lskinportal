@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useRef } from "react";
 import ProductCard from "./product";
-import { Link } from "react-router-dom";
-import  "./component.css"
+// import { Link } from "react-router-dom";
+import "./component.css";
+import Ctabutton from "../ux/ctabutton";
 
 const CategoryRow = ({ categoryName, products }) => {
   const scrollRef = useRef(null);
@@ -52,12 +53,16 @@ const CategoryRow = ({ categoryName, products }) => {
         </button>
       </div>
       <div className=" text-center ">
-        <Link
+        <Ctabutton
+          text={`View All ${categoryName}`}
+          link={`/category/${categoryName}`}
+        />
+        {/* <Link
           to={`/category/${categoryName}`}
           className="text-black  hover:underline"
         >
           View All {categoryName}
-        </Link>
+        </Link> */}
       </div>
       <div>
         <hr className="border-t border-gray-900 my-4" />

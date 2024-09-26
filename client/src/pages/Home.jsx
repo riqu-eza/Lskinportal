@@ -52,12 +52,14 @@ const Home = () => {
         {/* Top Section */}
         <div className="flex justify-between items-center p-4 pt-6">
           {/* Left Section with One Word */}
-          <div className=" text-5xl font-bold">Lskin</div>
+          <div>
+            <Link to="/" className=" text-5xl font-bold">Lskin</Link>{" "}
+          </div>
 
           {/* Right Section with Links */}
           <div className="flex gap-8">
             <Link to="/login" className="text-white text-lg hover:underline">
-              account
+              shop
             </Link>
             <Link to="/search" className="text-white text-lg hover:underline">
               search
@@ -66,10 +68,10 @@ const Home = () => {
               cart
             </Link>
             <Link
-              to="/createlisting"
+              to="/login"
               className="text-white text-lg hover:underline"
             >
-              admin
+              account
             </Link>
           </div>
         </div>
@@ -92,30 +94,30 @@ const Home = () => {
           zIndex: 10,
         }}
       >
-        <div className="flex" >
-        <Homecontainer
-          imageUrl="/wallhaven.png" // Replace with your actual image URL
-          title="New Arrival"
-          description="Discover the latest in arrivala."
-          navigateTo="/new-arrival"
-        />
-        <Homecontainer
-          imageUrl="/wallhaven.png" // Replace with your actual image URL
-          title="Popular Choises"
-          description="Discover the latest in skincare."
-          navigateTo="/PopularChoises"
-        />
+        <div className="flex">
+          <Homecontainer
+            imageUrl="/wallhaven.png" // Replace with your actual image URL
+            title="New Arrival"
+            description="Discover the latest in arrivala."
+            navigateTo="/new-arrival"
+          />
+          <Homecontainer
+            imageUrl="/wallhaven.png" // Replace with your actual image URL
+            title="Popular Choises"
+            description="Discover the latest in skincare."
+            navigateTo="/PopularChoises"
+          />
         </div>
       </div>
-        <div className="mt-96">
-          {Object.keys(groupedProducts).map((categoryName) => (
-            <CategoryRow
-              key={categoryName}
-              categoryName={categoryName}
-              products={groupedProducts[categoryName]}
-            />
-          ))}
-        </div>
+      <div className="mt-96">
+        {Object.keys(groupedProducts).map((categoryName) => (
+          <CategoryRow
+            key={categoryName}
+            categoryName={categoryName}
+            products={groupedProducts[categoryName]}
+          />
+        ))}
+      </div>
     </>
   );
 };

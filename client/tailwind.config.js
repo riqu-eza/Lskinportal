@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       backgroundColor: {
-        'root-pink': '##ffe4e8', // Custom pink color for the root background
+        'root-pink': '#EAE7DC', // Custom pink color for the root background
       },
     },
   },
