@@ -23,7 +23,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3003/api/signup", {
+      const response = await fetch("http://localhost:3003/api/user/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -32,7 +32,7 @@ const Signup = () => {
         throw new Error("Signup failed");
       }
       // Handle signup success (e.g., redirect)
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       alert("Signup failed. Please try again.");
     }
@@ -104,7 +104,7 @@ const Signup = () => {
         </form>
         <p className="text-center">
           Already have an account?{" "}
-          <Link to="/" className="text-indigo-600 hover:underline">
+          <Link to="/login" className="text-indigo-600 hover:underline">
             Login
           </Link>
         </p>

@@ -6,7 +6,7 @@ import Header from "../components/header";
 import HoverButton from "../ux/HoverButton";
 
 const ProductListing = () => {
-  const { id } = useParams(); // Getting product ID from route
+  const { productId, userId } = useParams(); // Getting product ID from route
   const [quantity, setQuantity] = useState(1);
   const [showIngredients, setShowIngredients] = useState(false);
   const [showHowToUse, setShowHowToUse] = useState(false);
@@ -19,7 +19,7 @@ const ProductListing = () => {
   const fetchProduct = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3003/api/listing/products/${id}`
+        `http://localhost:3003/api/listing/products/${productId}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -36,7 +36,7 @@ const ProductListing = () => {
 
   useEffect(() => {
     fetchProduct();
-  }, [id]); // Re-fetch data when the id changes
+  }, [productId]); // Re-fetch data when the id changes
 
   if (loading) {
     return <div>Loading...</div>;
@@ -150,8 +150,8 @@ const ProductListing = () => {
 
           {/* Action Buttons */}
           <div className="mt-4 flex flex-col gap-2">
-        <HoverButton title="Add to Cart" link={`/cart/${product._id}`} />
-        <HoverButton title="Buy Now" link={`/buy/${product._id}`} />
+        <HoverButton title="Add to Cart" link={`/cart/${product._id}/${userId}`} />
+        <HoverButton title="Buy Now" link={`/buy/${product._id}/${userId}  `} />
       </div>
         </div>
       </div>

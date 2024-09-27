@@ -5,7 +5,7 @@ import ProductCard from "./product";
 import "./component.css";
 import Ctabutton from "../ux/ctabutton";
 
-const CategoryRow = ({ categoryName, products }) => {
+const CategoryRow = ({ categoryName, products, userId }) => {
   const scrollRef = useRef(null);
   console.log(categoryName, products);
 
@@ -40,7 +40,7 @@ const CategoryRow = ({ categoryName, products }) => {
             <div key={index} className="inline-block">
               {" "}
               {/* Ensure each card is treated as a block for scrolling */}
-              <ProductCard product={product} />
+              <ProductCard product={product} userId={userId} />
             </div>
           ))}
         </div>
@@ -56,6 +56,7 @@ const CategoryRow = ({ categoryName, products }) => {
         <Ctabutton
           text={`View All ${categoryName}`}
           link={`/category/${categoryName}`}
+          userId={userId}
         />
         {/* <Link
           to={`/category/${categoryName}`}

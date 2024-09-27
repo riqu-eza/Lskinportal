@@ -2,10 +2,11 @@ import { Link } from "react-router-dom";
 import Homecontainer from "../components/Homcontainers";
 import { useEffect, useState } from "react";
 import CategoryRow from "../components/category";
+import { useUser } from "../context/UserContext";
 
 const Home = () => {
   const [groupedProducts, setGroupedProducts] = useState({});
-
+const {currentUser} = useUser();
   const fetchData = async () => {
     try {
       const response = await fetch(
@@ -115,6 +116,7 @@ const Home = () => {
             key={categoryName}
             categoryName={categoryName}
             products={groupedProducts[categoryName]}
+            userId={currentUser ? currentUser._id : null}
           />
         ))}
       </div>

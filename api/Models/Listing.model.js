@@ -18,18 +18,15 @@ const listingSchema = new mongoose.Schema({
     discount: {
         type: String,
     },
-    location: {
-        type: String,
+    count: {
+        type: Number,
         required: true,
     },
     category: {
         type: String,
         required: true,
     },
-    subcategory:{
-        type: String,
-        required: true,
-    },
+  
     ingridients:{
         type: [String],
         required: true,

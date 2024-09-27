@@ -7,25 +7,32 @@ import Checkout from "./pages/purchasing/checkout";
 import CategoryListing from "./pages/CategoryListing";
 import Login from "./auth/Login";
 import Signup from "./auth/signin";
+import Profile from "./auth/Profile";
+import { UserProvider } from "./context/UserContext";
 
 export default function App() {
   return (
+    <UserProvider>
     <BrowserRouter>
       <div className="bg-root-pink ">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/createlisting" element={<CreateListing />}></Route>
-          <Route path="product/:id" element={<ProductListing />}></Route>
-          <Route path="/cart/:id" element={<Cart />}></Route>
-          <Route path="/buy/:id" element={<Checkout />}></Route>
+          <Route path="product/:productId/:userId" element={<ProductListing />}></Route>
+          <Route path="/cart/:productId/:userId" element={<Cart />}></Route>
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/buy/:productId/:userId" element={<Checkout />}></Route>
+          <Route path="/checkout/:orderId" element={<Checkout />} ></Route>
           <Route
-            path="/category/:categoryName"
+            path="/category/:categoryName/:userId"
             element={<CategoryListing />}
           ></Route>
           <Route path="/login" element={<Login/>} ></Route>
           <Route path="/signup" element={<Signup/>} ></Route>
+          <Route path="/profile" element={<Profile/>} ></Route>
         </Routes>
       </div>
     </BrowserRouter>
+    </UserProvider>
   );
 }

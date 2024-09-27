@@ -20,9 +20,8 @@ const CreateListing = () => {
     description: "",
     price: "",
     discount: "",
-    location: "",
+    count: "",
     category: "",
-    subcategory: "",
     ingridients: [""],
     howtouse: [""],
     imageUrls: [],
@@ -90,11 +89,14 @@ const CreateListing = () => {
       imageUrls: formData.imageUrls.filter((_, i) => i !== index),
     });
   };
-  const categoryOptions = {
-    Skincare: ["Moisturizers", "Cleansers", "Toners", "Serums"],
-    Makeup: ["Foundation", "Lipstick", "Eyeshadow", "Mascara"],
-    Haircare: ["Shampoo", "Conditioner", "Hair Oil", "Hair Mask"],
-    Fragrance: ["Perfume", "Body Mist", "Deodorant", "Cologne"],
+  const categoryOptions = ["body butter", "body oils", "Scented candles", "beard growth", "Hair growth","Gift set packages" ];
+  const handleCategoryChange = (e) => {
+    const selectedCategory = e.target.value;
+    setFormData({
+      ...formData,
+      category: selectedCategory,
+      // No need to reset subcategory since it doesn't exist
+    });
   };
   // Change handler for regular inputs
   const handleChange = (e) => {
@@ -106,14 +108,7 @@ const CreateListing = () => {
   };
 
   // Change handler for category dropdown
-  const handleCategoryChange = (e) => {
-    const selectedCategory = e.target.value;
-    setFormData({
-      ...formData,
-      category: selectedCategory,
-      subcategory: "", // Reset subcategory when category changes
-    });
-  };
+  
 
   // Ingredient and How to Use change handler (for array fields)
   const handleArrayChange = (e, index, key) => {
@@ -220,11 +215,11 @@ const CreateListing = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">Location</label>
+        <label className="block text-gray-700 text-sm font-bold mb-2">Count</label>
         <input
-          type="text"
-          name="location"
-          value={formData.location}
+          type="number"
+          name="count"
+          value={formData.count}
           onChange={handleChange}
           className="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
           required
@@ -250,26 +245,7 @@ const CreateListing = () => {
         </select>
       </div>
 
-      {/* Subcategory Dropdown (depends on selected category) */}
-      {formData.category && (
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">Subcategory</label>
-          <select
-            name="subcategory"
-            value={formData.subcategory}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:border-blue-500"
-            required
-          >
-            <option value="">Select Subcategory</option>
-            {categoryOptions[formData.category].map((subcategory) => (
-              <option key={subcategory} value={subcategory}>
-                {subcategory}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
+    
 
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">Ingredients</label>
