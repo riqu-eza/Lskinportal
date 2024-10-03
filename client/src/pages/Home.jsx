@@ -1,12 +1,37 @@
-import { Link } from "react-router-dom";
 import Homecontainer from "../components/Homcontainers";
 import { useEffect, useState } from "react";
 import CategoryRow from "../components/category";
 import { useUser } from "../context/UserContext";
+import Header from "../components/header";
+import "./home.css"
 
 const Home = () => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   const [groupedProducts, setGroupedProducts] = useState({});
-const {currentUser} = useUser();
+  const { currentUser } = useUser();
+
+  const images = [
+    "/wallhaven1.jpg",
+    "/wallhaven.png",
+    "/homelskin1.jpg",
+    "/homelskin2.jpg",
+    "/homelskin3.jpg",
+  ];
+
+  useEffect(() => {
+    // Change image every 5 seconds (5000 ms)
+    const interval = setInterval(() => {
+      // Update the image index in a cyclic manner
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === images.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 3000);
+
+    // Clear the interval on component unmount
+    return () => clearInterval(interval);
+  }, [images.length]);
+
   const fetchData = async () => {
     try {
       const response = await fetch(
@@ -38,10 +63,11 @@ const {currentUser} = useUser();
   }, []);
   return (
     <>
+      <Header />
       <div
         className="relative "
         style={{
-          backgroundImage: `url('/wallhaven1.jpg')`, // Path to your image
+          backgroundImage: `url(${images[currentImageIndex]})`, // Path to your image
           backgroundSize: "cover", // Ensures the image covers the entire container
           backgroundPosition: "center", // Centers the image
           backgroundRepeat: "no-repeat", // Prevents the image from repeating
@@ -51,59 +77,33 @@ const {currentUser} = useUser();
         }}
       >
         {/* Top Section */}
-        <div className="flex justify-between items-center p-4 pt-6">
-          {/* Left Section with One Word */}
-          <div>
-            <Link to="/" className=" text-5xl font-bold">Lskin</Link>{" "}
-          </div>
-
-          {/* Right Section with Links */}
-          <div className="flex gap-8">
-            <Link to="/login" className="text-white text-lg hover:underline">
-              shop
-            </Link>
-            <Link to="/search" className="text-white text-lg hover:underline">
-              search
-            </Link>
-            <Link to="/cart" className="text-white text-lg hover:underline">
-              cart
-            </Link>
-            <Link
-              to="/login"
-              className="text-white text-lg hover:underline"
-            >
-              account
-            </Link>
-          </div>
-        </div>
 
         {/* Middle Right Section with Wordings */}
-        <div className="absolute right-10 top-1/2 transform -translate-y-1/2">
-          <div className="text-white text-3xl font-bold mb-2 text-right">
-            Embrace Your Natural Beauty
-          </div>
-          <p className="text-white text-lg text-right">
-            Explore a wide range of luxury cosmetics, carefully crafted to
-            enhance your skin and bring out the best version of you.
+        <div className="flex flex-col justify-center items-center h-80 gap-8 text-center">
+          <p className="text-5xl regtext animate-slide-in-left">
+            beauty, cosmetic & personal care
           </p>
+          <h1 style={{color:'#a67e5a'   }} className=" maintext text-7xl font-bold animate-slide-in-right">
+            BEAUTY IS IN THE SKIN
+          </h1>
         </div>
       </div>
       <div
         className="absolute  -10 left-1/2 transform -translate-x-1/2"
         style={{
-          top: "8cm",
+          top: "11cm",
           zIndex: 10,
         }}
       >
         <div className="flex">
           <Homecontainer
-            imageUrl="/wallhaven.png" // Replace with your actual image URL
+            imageUrl="/123.avif" // Replace with your actual image URL
             title="New Arrival"
             description="Discover the latest in arrivala."
             navigateTo="/new-arrival"
           />
           <Homecontainer
-            imageUrl="/wallhaven.png" // Replace with your actual image URL
+            imageUrl="/homelskin2.jpg" // Replace with your actual image URL
             title="Popular Choises"
             description="Discover the latest in skincare."
             navigateTo="/PopularChoises"

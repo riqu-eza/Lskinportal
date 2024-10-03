@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import ProductCard from "./product";
 // import { Link } from "react-router-dom";
-import "./component.css";
+import "./components.css";
 import Ctabutton from "../ux/ctabutton";
 
 const CategoryRow = ({ categoryName, products, userId }) => {

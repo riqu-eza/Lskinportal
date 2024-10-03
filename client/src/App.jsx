@@ -9,9 +9,12 @@ import Login from "./auth/Login";
 import Signup from "./auth/signin";
 import Profile from "./auth/Profile";
 import { UserProvider } from "./context/UserContext";
+import SearchResult from "./features/Search";
+import { CartProvider } from "./context/CartContext";
 
 export default function App() {
   return (
+    <CartProvider>
     <UserProvider>
     <BrowserRouter>
       <div className="bg-root-pink ">
@@ -24,9 +27,10 @@ export default function App() {
           <Route path="/buy/:productId/:userId" element={<Checkout />}></Route>
           <Route path="/checkout/:orderId" element={<Checkout />} ></Route>
           <Route
-            path="/category/:categoryName/:userId"
+            path="/category/:categoryName"
             element={<CategoryListing />}
           ></Route>
+          <Route path="/search" element={<SearchResult/>} ></Route>
           <Route path="/login" element={<Login/>} ></Route>
           <Route path="/signup" element={<Signup/>} ></Route>
           <Route path="/profile" element={<Profile/>} ></Route>
@@ -34,5 +38,6 @@ export default function App() {
       </div>
     </BrowserRouter>
     </UserProvider>
+    </CartProvider>
   );
 }

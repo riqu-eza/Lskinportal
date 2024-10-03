@@ -7,10 +7,11 @@ export default {
   theme: {
     extend: {
       backgroundColor: {
-        'root-pink': '#EAE7DC', // Custom pink color for the root background
+        // 'root-pink': '#EAE7DC', // Custom pink color for the root background
+      },
+      transitionDuration: {
+        '2000': '2000ms', // Custom duration for 3 seconds
       },
     },
   },
 }
-
-

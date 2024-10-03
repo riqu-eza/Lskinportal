@@ -38,7 +38,7 @@ const CategoryListing = () => {
         {categoryName} 
       </h1>
     </div>
-    <div className="grid grid-cols-3 gap-4 p-5">
+    <div className="grid grid-cols-4 gap-4 ml-2 p-5">
         {products.length > 0 ? (
           products.map((product) => (
             <ProductCard key={product._id} product={product} />

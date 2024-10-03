@@ -150,7 +150,7 @@ const ProductListing = () => {
 
           {/* Action Buttons */}
           <div className="mt-4 flex flex-col gap-2">
-        <HoverButton title="Add to Cart" link={`/cart/${product._id}/${userId}`} />
+        <HoverButton title="Add to Cart" link={`/cart/${product._id}/${userId}`}  />
         <HoverButton title="Buy Now" link={`/buy/${product._id}/${userId}  `} />
       </div>
         </div>

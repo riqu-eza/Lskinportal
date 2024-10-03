@@ -1,13 +1,12 @@
-import  { useState } from "react";
+import { useState } from "react";
 import {
-    getDownloadURL,
-    getStorage,
-    ref,
-    uploadBytesResumable,
-  } from "firebase/storage";
-  import { app } from "../firebase";
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { app } from "../firebase";
 // Define categories and subcategories
-
 
 const CreateListing = () => {
   // Form data state
@@ -89,7 +88,14 @@ const CreateListing = () => {
       imageUrls: formData.imageUrls.filter((_, i) => i !== index),
     });
   };
-  const categoryOptions = ["body butter", "body oils", "Scented candles", "beard growth", "Hair growth","Gift set packages" ];
+  const categoryOptions = [
+    "body butter",
+    "body oils",
+    "Scented candles",
+    "beard growth",
+    "Hair growth",
+    "Gift set packages",
+  ];
   const handleCategoryChange = (e) => {
     const selectedCategory = e.target.value;
     setFormData({
@@ -108,7 +114,6 @@ const CreateListing = () => {
   };
 
   // Change handler for category dropdown
-  
 
   // Ingredient and How to Use change handler (for array fields)
   const handleArrayChange = (e, index, key) => {
@@ -125,21 +130,21 @@ const CreateListing = () => {
   // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevents the default form submission behavior
-  
+
     try {
       const response = await fetch("http://localhost:3003/api/listing/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-  
+
       // Check if the response was successful (status code 2xx)
       if (response.ok) {
         const data = await response.json(); // Parse response as JSON
-  
+
         console.log("Form submitted successfully", data);
         alert("Listing created successfully!"); // Show success message
-  
+
         // Reset the form after successful submission
         setFormData({
           name: "",
@@ -164,12 +169,16 @@ const CreateListing = () => {
       alert("An error occurred while submitting the form.");
     }
   };
-  
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto p-8 bg-white shadow-md rounded-md">
+    <form
+      onSubmit={handleSubmit}
+      className="w-full max-w-lg mx-auto p-8 bg-white shadow-md rounded-md"
+    >
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">Name</label>
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Name
+        </label>
         <input
           type="text"
           name="name"
@@ -181,7 +190,9 @@ const CreateListing = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">Description</label>
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Description
+        </label>
         <textarea
           name="description"
           value={formData.description}
@@ -192,7 +203,9 @@ const CreateListing = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">Price</label>
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Price
+        </label>
         <input
           type="text"
           name="price"
@@ -204,7 +217,9 @@ const CreateListing = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">Discount</label>
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Discount
+        </label>
         <input
           type="text"
           name="discount"
@@ -215,7 +230,9 @@ const CreateListing = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">Count</label>
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Count
+        </label>
         <input
           type="number"
           name="count"
@@ -228,7 +245,9 @@ const CreateListing = () => {
 
       {/* Category Dropdown */}
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">Category</label>
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Category
+        </label>
         <select
           name="category"
           value={formData.category}
@@ -237,18 +256,18 @@ const CreateListing = () => {
           required
         >
           <option value="">Select Category</option>
-          {Object.keys(categoryOptions).map((category) => (
-            <option key={category} value={category}>
+          {categoryOptions.map((category, index) => (
+            <option key={index} value={category}>
               {category}
             </option>
           ))}
         </select>
       </div>
 
-    
-
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">Ingredients</label>
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Ingredients
+        </label>
         {formData.ingridients.map((ing, index) => (
           <div key={index} className="flex mb-2">
             <input
@@ -272,7 +291,9 @@ const CreateListing = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">How to Use</label>
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          How to Use
+        </label>
         {formData.howtouse.map((step, index) => (
           <div key={index} className="flex mb-2">
             <input
@@ -296,51 +317,48 @@ const CreateListing = () => {
       </div>
 
       <div className="mb-4">
-      <p className="font-semibold">
-            Image:
-            
-          </p>
-          <div className="flex gap-4">
-            <input
-              onChange={(e) => setFiles(e.target.files)}
-              className="p-3 border border-gray-300 rounded w-full"
-              type="file"
-              id="images"
-              accept="image/*"
-              multiple
-            />
-            <button
-              disabled={uploading}
-              type="button"
-              onClick={handleImageSubmit}
-              className="p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80"
+        <p className="font-semibold">Image:</p>
+        <div className="flex gap-4">
+          <input
+            onChange={(e) => setFiles(e.target.files)}
+            className="p-3 border border-gray-300 rounded w-full"
+            type="file"
+            id="images"
+            accept="image/*"
+            multiple
+          />
+          <button
+            disabled={uploading}
+            type="button"
+            onClick={handleImageSubmit}
+            className="p-3 text-green-700 border border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80"
+          >
+            {uploading ? "uploading" : "upload"}
+          </button>
+        </div>
+        <p className="text-red-700 text-sm">
+          {imageUploadError && imageUploadError}
+        </p>
+        {formData.imageUrls.length > 0 &&
+          formData.imageUrls.map((url, index) => (
+            <div
+              key={url}
+              className="flex justify-between p-3 border items-center"
             >
-              {uploading ? "uploading" : "upload"}
-            </button>
-          </div>
-          <p className="text-red-700 text-sm">
-            {imageUploadError && imageUploadError}
-          </p>
-          {formData.imageUrls.length > 0 &&
-            formData.imageUrls.map((url, index) => (
-              <div
-                key={url}
-                className="flex justify-between p-3 border items-center"
+              <img
+                src={url}
+                alt="listing image"
+                className="w-20 h-20 object-contain rounded-lg"
+              />
+              <button
+                type="button"
+                onClick={() => handleRemoveImage(index)}
+                className="p-3 text-red-700 rounded-lg uppercase hover:opacity-75"
               >
-                <img
-                  src={url}
-                  alt="listing image"
-                  className="w-20 h-20 object-contain rounded-lg"
-                />
-                <button
-                  type="button"
-                  onClick={() => handleRemoveImage(index)}
-                  className="p-3 text-red-700 rounded-lg uppercase hover:opacity-75"
-                >
-                  Delete
-                </button>
-              </div>
-            ))}
+                Delete
+              </button>
+            </div>
+          ))}
       </div>
 
       <div className="mb-4">
