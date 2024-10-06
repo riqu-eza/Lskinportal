@@ -12,6 +12,7 @@ import { UserProvider } from "./context/UserContext";
 import SearchResult from "./features/Search";
 import { CartProvider } from "./context/CartContext";
 import Footer from "./components/Footer";
+import About from "./pages/About";
 
 export default function App() {
   return (
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/login" element={<Login/>} ></Route>
           <Route path="/signup" element={<Signup/>} ></Route>
           <Route path="/profile" element={<Profile/>} ></Route>
+          <Route path="/About"  element={<About/>} ></Route>
         </Routes>
       </div>
       <Footer/>

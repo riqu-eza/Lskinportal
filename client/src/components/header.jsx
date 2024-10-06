@@ -54,6 +54,11 @@ const Header = () => {
 
         {/* Right Section with Links */}
         <div className="flex gap-8">
+          <div>
+          <Link to="/About" className="text-lg hover:underline ">
+            About 
+          </Link>
+          </div>
           <div className="relative dropdown-container">
             {/* Shop link */}
             <button
