@@ -11,6 +11,7 @@ import Profile from "./auth/Profile";
 import { UserProvider } from "./context/UserContext";
 import SearchResult from "./features/Search";
 import { CartProvider } from "./context/CartContext";
+import Footer from "./components/Footer";
 
 export default function App() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="/profile" element={<Profile/>} ></Route>
         </Routes>
       </div>
+      <Footer/>
     </BrowserRouter>
     </UserProvider>
     </CartProvider>

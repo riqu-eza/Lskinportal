@@ -5,6 +5,7 @@ import listingRouter from "./Routes/Listing.route.js";
 import orderRouter from "./Routes/Order.route.js";
 import userRouter from "./Routes/User.route.js";
 import searchRouter from "./Routes/Search.route.js";
+import newsletterRouter from "./Routes/Newsletter.route.js"
 import cookieParser from "cookie-parser";
 import path from "path";
 import cors from "cors";
@@ -36,6 +37,7 @@ app.use("/api/listing", listingRouter);
 app.use("/api/user", userRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/search", searchRouter);
+app.use("/api/newsletter", newsletterRouter);
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 

@@ -111,42 +111,43 @@ const Cart = () => {
   // Close the cart
   const closeCart = () => {
     setIsCartOpen(false);
+    navigate(-1);
   };
 
   return (
     <div>
       {isCartOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-end items-start z-50">
-          <div className="bg-white w-72 shadow-lg p-4 h-full overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center  items-start z-50">
+          <div className="bg-white w-[500px] shadow-lg p-4 h-full overflow-y-auto">
             <button
               onClick={closeCart}
               className="absolute top-2 left-2 text-red-500"
             >
               Close
             </button>
-            <h1>Your Cart</h1>
+            <h1 className="text-center text-xl bg-gray-300 rounded-sm" >Your Cart</h1>
             {orderItems.length === 0 ? (
-              <p>Your cart is empty.</p>
+              <p className="text-blue-400 p-20 m-10 text-2xl" >#Your cart is empty.</p>
             ) : (
               orderItems.map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-center justify-between my-2"
+                  className="flex bg-gray-200 rounded-md shadow-md justify-between my-2"
                 >
                   <img
                     src={item.imageUrls}
                     alt={item.name}
-                    className="w-16 h-16"
+                    className="w-32 border-2 m-3  border-black h-28"
                   />
-                  <div className="flex flex-col">
-                    <p>{item.name}</p>
-                    <p>Price: ${item.price}</p>
-                    <div className="flex items-center">
-                      <button onClick={() => updateQuantity(item.id, 1)}>
+                  <div className="flex border-2 bg-gray-300 p-2 m-1 rounded-sm shadow-sm flex-col">
+                    <p className=" text-bold text-2xl" >{item.name}</p>
+                    <p className=" text-black text-xl " >Price: <span className=" text-green-500 " >  ${item.price}</span></p>
+                    <div className="flex m-2 items-center">
+                      <button className="text-2xl" onClick={() => updateQuantity(item.id, 1)}>
                         +
                       </button>
-                      <span>{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.id, -1)}>
+                      <span className="px-4" >{item.quantity}</span>
+                      <button className="text-5xl" onClick={() => updateQuantity(item.id, -1)}>
                         -
                       </button>
                     </div>
@@ -160,10 +161,10 @@ const Cart = () => {
                 </div>
               ))
             )}
-            <h2 className="mt-4">Total Amount: ${totalPrice}</h2>
+            <h2 className="mt-4 text-black  text-bold text-xl ">Total Amount: <span className="text-green-500" >${totalPrice}</span> </h2>
             <button
               onClick={handleCheckout}
-              className="bg-blue-500 text-white mt-2 p-2"
+              className="bg-blue-500 rounded-md text-white mt-2 p-2"
             >
               Checkout
             </button>

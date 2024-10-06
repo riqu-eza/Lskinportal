@@ -17,7 +17,7 @@ const orderSchema = new Schema({
   required:true,}  ,     // Array of products (order items)
   totalPrice: {
     type: Number,
-    required: true,
+    required: false,
   },
  
 } ,{timestamps:true} );
