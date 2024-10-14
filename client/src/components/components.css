@@ -82,3 +82,14 @@
   .productname{
     font-family: 'cart';
   }
+  /* Additional styles for the mobile menu */
+.menu-container {
+  position: relative;
+}
+
+.menu-container .bg-white {
+  position: absolute;
+  top: 100%; /* Position below the button */
+  left: 0;
+  right: 0;
+}

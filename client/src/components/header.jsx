@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FiSearch } from "react-icons/fi"; // Search icon from react-icons
+import { FiSearch, FiMenu } from "react-icons/fi"; // Added FiMenu for the hamburger icon
+import "./components.css"; // Ensure this file contains any custom styles you might have
 
 const Header = () => {
   const categoryOptions = [
@@ -17,6 +18,7 @@ const Header = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isMenuOpen, setMenuOpen] = useState(false); // State for the mobile menu
   const navigate = useNavigate();
 
   const handleSearch = () => {
@@ -24,16 +26,20 @@ const Header = () => {
       navigate(`/search?query=${searchQuery}`);
     }
   };
+
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
-    setDropdownOpen(false); // Close the dropdown after selecting a category
+    setDropdownOpen(false);
   };
 
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest(".dropdown-container")) {
-        setDropdownOpen(false); // Close dropdown if clicked outside
+        setDropdownOpen(false);
+      }
+      if (!event.target.closest(".menu-container")) {
+        setMenuOpen(false); // Close mobile menu if clicked outside
       }
     };
     document.addEventListener("click", handleClickOutside);
@@ -44,38 +50,35 @@ const Header = () => {
 
   return (
     <>
-      <div className="bg-[#0A1828] text-[#BFA181] flex justify-between items-center p-4 pt-6">
+      <div className="bg-[#0A1828] text-[#BFA181] flex justify-between items-center p-4 md:p-6">
         {/* Left Section with One Word */}
-        <div className="">
-          <Link to="/" className="pl-10 text-5xl font-bold ">
+        <div>
+          <Link to="/" className="pl-10 text-5xl font-bold">
             Lskin
           </Link>
         </div>
 
-        {/* Right Section with Links */}
-        <div className="flex gap-8">
-          <div>
-          <Link to="/About" className="text-lg hover:underline ">
-            About 
+        {/* Right Section for Desktop View */}
+        <div className="hidden md:flex gap-8">
+          <Link to="/About" className="text-lg hover:underline">
+            About
           </Link>
-          </div>
+
           <div className="relative dropdown-container">
-            {/* Shop link */}
             <button
               className="text-lg hover:underline"
               onClick={() => setDropdownOpen(!isDropdownOpen)} // Toggle dropdown on click
             >
-              shop
+              Shop
             </button>
 
-            {/* Dropdown with category options */}
             {isDropdownOpen && (
               <ul className="absolute mt-2 w-48 bg-white shadow-md rounded-md border border-gray-300 z-10">
                 {categoryOptions.map((category) => (
                   <li
                     key={category}
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => handleCategorySelect(category)} // Handle category click
+                    onClick={() => handleCategorySelect(category)}
                   >
                     <Link to={`/category/${category}`}>{category}</Link>
                   </li>
@@ -83,13 +86,14 @@ const Header = () => {
               </ul>
             )}
           </div>
+
           <div className="relative text-lg">
             {!isInputVisible ? (
               <span
                 className="cursor-pointer hover:underline"
                 onClick={() => setIsInputVisible(true)}
               >
-                search
+                Search
               </span>
             ) : (
               <div className="flex items-center border border-gray-300 rounded-md p-2 bg-white shadow-lg">
@@ -97,7 +101,7 @@ const Header = () => {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="border-none outline-none p-2 w-60"
+                  className="border-none outline-none w-52"
                   placeholder="Search..."
                 />
                 <button
@@ -109,14 +113,84 @@ const Header = () => {
               </div>
             )}
           </div>
-          <Link to="/cart" className=" text-lg hover:underline">
-            cart
+          <Link to="/cart" className="text-lg hover:underline">
+            Cart
           </Link>
-          <Link to="/login" className=" text-lg hover:underline">
-            account
+          <Link to="/login" className="text-lg hover:underline">
+            Account
           </Link>
         </div>
+
+        {/* Mobile Menu Button */}
+        <div className="md:hidden">
+          <button
+            onClick={() => {
+              setMenuOpen((prev) => !prev); // Toggle mobile menu
+            }}
+            className="text-3xl"
+          >
+            <FiMenu />
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      {isMenuOpen && (
+        <div className="bg-white shadow-md rounded-md border border-gray-900 z-70 p-4 md:hidden menu-container">
+          <Link to="/About" className="block py-2 hover:underline">
+            About
+          </Link>
+          <div className="relative">
+            <button
+              className="block py-2 hover:underline"
+              onClick={() => setDropdownOpen((prev) => !prev)} // Toggle dropdown in mobile menu
+            >
+              Shop
+            </button>
+            {isDropdownOpen && (
+              <ul className="bg-white shadow-md rounded-md border border-gray-300 mt-2">
+                {categoryOptions.map((category) => (
+                  <li key={category} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    <Link to={`/category/${category}`}>{category}</Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <div className="relative">
+            {!isInputVisible ? (
+              <span
+                className="block py-2 cursor-pointer hover:underline"
+                onClick={() => setIsInputVisible(true)}
+              >
+                Search
+              </span>
+            ) : (
+              <div className="flex items-center border border-gray-300 rounded-md p-2 bg-white shadow-lg">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="border-none outline-none p-2 w-40"
+                  placeholder="Search..."
+                />
+                <button
+                  onClick={handleSearch}
+                  className="ml-2 p-2 text-gray-500 hover:text-gray-800"
+                >
+                  <FiSearch size={20} />
+                </button>
+              </div>
+            )}
+          </div>
+          <Link to="/cart" className="block py-2 hover:underline">
+            Cart
+          </Link>
+          <Link to="/login" className="block py-2 hover:underline">
+            Account
+          </Link>
+        </div>
+      )}
     </>
   );
 };
