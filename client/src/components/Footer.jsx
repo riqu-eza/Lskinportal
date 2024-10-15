@@ -32,19 +32,22 @@ const Footer = () => {
       setMessage("Please enter a valid email address.");
       return;
     }
-console.log("sent", email);
+    console.log("sent", email);
     try {
-        const response = await fetch("http://localhost:3003/api/newsletter/create",{
-            method:"POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(email),
-        });
-
-        if (!response.ok){
-            throw new Error(`Error: ${response.status}`);
+      const response = await fetch(
+        "http://localhost:3003/api/newsletter/create",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(email),
         }
-        const data = await response.json();
-      console.log(data)
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log(data);
       setMessage("Thank you for subscribing!");
       setEmail(""); // Clear the input
     } catch (error) {
@@ -82,6 +85,9 @@ console.log("sent", email);
             <li className="grid grid-cols-2 gap-4">
               <span>Sunday</span> <span>Closed</span>
             </li>
+            <li className="grid grid-cols-2 gap-4">
+              <span>Holidays</span> <span>Closed</span>
+            </li>
           </ul>
         </div>
 
@@ -91,12 +97,12 @@ console.log("sent", email);
             Company Policy
           </h3>
           <p className="mt-2    ">
-            We value your privacy and are committed to protecting your personal
-            information.
+            Go Green by providing organic products that are clean and made of
+            nature with skin nourishing ingridients.
           </p>
           <p className="mt-2  ">
-            Our return policy allows you to return products within 30 days of
-            purchase.
+            Go Green by providing organic products that are clean and made of
+            nature with skin nourishing ingridients.
           </p>
         </div>
 
@@ -131,17 +137,22 @@ console.log("sent", email);
           <h3 className="text-lg    text-center p-1  font-bold">Contact Us</h3>
           <div className="mt-2 flex flex-col gap-4  p-4">
             <p className="flex items-center">
-              <FiMapPin className="mr-2 text-[#a67e5a]" /> 1234 Street Name,
-              City, State, ZIP
+              <FiMapPin className="mr-2 text-[#a67e5a]" /> 1234 Kangundo Rd,NR
             </p>
             <p className="flex items-center">
-              <FiSmartphone className="mr-2 text-[#a67e5a]" /> Phone: (123)
-              456-7890
+              <FiSmartphone className="mr-2 text-[#a67e5a]" /> Phone: +254
+              745168783
             </p>
             <p className="flex items-center">
-              <FiMail className="mr-2 text-[#a67e5a]" /> Email: info@example.com
+              <FiMail className="mr-2 text-[#a67e5a]" />
+              <a
+                href="mailto:info@Lskinessentials.com"
+                className="text-[#a67e5a]"
+              >
+                Email: info@Lskinessentials.com
+              </a>
             </p>
-          </div>
+          </div>{" "}
           <div className="flex justify-center mt-6">
             <Link to="#" className="mx-2">
               <FiFacebook className="h-6 w-6 text-blue-600" />

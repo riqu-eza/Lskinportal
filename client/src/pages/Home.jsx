@@ -77,7 +77,7 @@ const Home = () => {
         {/* Middle Right Section with Wordings */}
         <div className="flex flex-col justify-center items-center h-full gap-8 text-center">
           <p className="text-5xl regtext animate-slide-in-left">
-            beauty, cosmetic & personal care
+             Cosmetic & Personal care
           </p>
           <h1 style={{ color: "#a67e5a" }} className="regtext text-8xl font-bold animate-slide-in-right">
             BEAUTY IS IN THE SKIN

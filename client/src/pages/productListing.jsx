@@ -1,9 +1,10 @@
- /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Header from "../components/header";
 import HoverButton from "../ux/HoverButton";
+import { FaCheck } from "react-icons/fa";
 
 const ProductListing = () => {
   const { productId, userId } = useParams(); // Getting product ID from route
@@ -57,21 +58,21 @@ const ProductListing = () => {
   return (
     <>
       <Header />
-      <div className="flex border-black border-2">
+      <div className="flex  m-2 p-1 gap-1 ">
         {/* Left Section */}
-        <div className="w-2/3 p-4 border-black border-2  flex flex-col">
+        <div className="w-2/3 p-1  flex flex-col">
           {/* Main Image */}
-          <div className="items-center border-black border-2 justify-center pl-64 " >
-            <div className="  border-black border-2 h-96 w-72 mb-2">
+          <div className="items-center  p-1 justify-center pl-64 ">
+            <div className="   h-96 p-1 mb-2">
               <img
                 src={selectedImage} // Display selected image here
                 alt={product.name}
-                className="h-full border-blue-500 border-4 object-cover"
+                className="h-full border object-cover"
               />
             </div>
 
             {/* Image Gallery */}
-            <div className="grid grid-cols-5 border-black border-2 gap-2 mb-4">
+            <div className="grid grid-cols-5 gap-2 mb-4">
               {product.imageUrls.map((img, index) => (
                 <div
                   key={index}
@@ -81,78 +82,81 @@ const ProductListing = () => {
                   <img
                     src={img}
                     alt={`Thumbnail ${index + 1}`}
-                    className="h-full border-black border-2 object-cover"
+                    className="h-full  object-cover"
                   />
                 </div>
               ))}
             </div>
           </div>
           {/* Ingredient and How to Use Buttons */}
-          <div className="flex border-black border-2 justify-between">
-            <button
-              onClick={() => setShowIngredients(!showIngredients)}
-              className="bg-gray-200 p-2 border-black border-2 rounded"
-            >
-              Ingredients
-            </button>
-            <button
-              onClick={() => setShowHowToUse(!showHowToUse)}
-              className="bg-gray-200 p-2 border-black border-2 rounded"
-            >
-              How to Use
-            </button>
-          </div>
+          <div className="flex flex-col p-1 mt-1 gap-1  justify-between">
+            <div className="p-1 b">
+              <button
+                onClick={() => setShowIngredients(!showIngredients)}
+                className=" p-1  rounded"
+              >
+                Ingredients
+              </button>
+              {showIngredients && (
+                <ul className="mt-2 p-1  bg-gray-200 rounded-md  ">
+                  {product.ingridients.map((ingredient, index) => (
+                    <li className=" p-1 m-1 flex gap-1" key={index}><FaCheck  className=" text-xl mt-1 gap-1"  /> {ingredient}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            <div className="] p-1 ">
+              <button
+                onClick={() => setShowHowToUse(!showHowToUse)}
+                className="p-1  rounded"
+              >
+                How to Use
+              </button>
 
-          {/* Displaying Ingredients or How to Use */}
-          {showIngredients && (
-            <ul className="mt-2 border-black border-2">
-              {product.ingridients.map((ingredient, index) => (
-                <li key={index}>{ingredient}</li>
-              ))}
-            </ul>
-          )}
-          {showHowToUse && (
-            <ul className="mt-2 border-black border-2">
-              {product.howtouse.map((instruction, index) => (
-                <li key={index}>{instruction}</li>
-              ))}
-            </ul>
-          )}
+              {/* Displaying Ingredients or How to Use */}
+
+              {showHowToUse && (
+                <ul className=" p-1 m-1 bg-gray-200 shadow-lg rounded-md ">
+                  {product.howtouse.map((instruction, index) => (
+                    <li className=" p-1 m-1 flex gap-1 " key={index}> <FaCheck  className=" text-xl mt-1 gap-1"  /> {instruction} </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Right Section */}
-        <div className="w-1/3 p-4 flex border-black border-2 flex-col">
-          <h2 className="text-2xl  border-black border-2 font-bold">
+        <div className="w-1/3 p-4 flex flex-col">
+          <h2 className="text-2xl   font-bold">
             {product.name}
           </h2>
-          <h3 className="text-xl border-black border-2 pt-2 text-[#BFA181]">
-            {product.price}
+          <h3 className="text-xl  pt-2 text-[#BFA181]">
+           Ksh {product.price}
           </h3>
 
           {/* Quantity Section */}
           <div className="flex border-gray-300 border-2 w-fit items-center mt-4">
-            <button
-              onClick={handleDecrement}
-              className=" p-2  rounded"
-            >
+            <button onClick={handleDecrement} className=" p-2  rounded">
               -
             </button>
-            <span className="mx-4  text-lg">
-              {quantity}
-            </span>
-            <button
-              onClick={handleIncrement}
-              className=" p-2 rounded"
-            >
+            <span className="mx-4  text-lg">{quantity}</span>
+            <button onClick={handleIncrement} className=" p-2 rounded">
               +
             </button>
           </div>
 
           {/* Action Buttons */}
           <div className="mt-4 flex flex-col gap-2">
-        <HoverButton title="Add to Cart" link={`/cart/${product._id}/${userId}`}  />
-        <HoverButton title="Buy Now" link={`/buy/${product._id}/${userId}  `} />
-      </div>
+            <HoverButton
+              title="Add to Cart"
+              link={`/cart/${product._id}/${userId}`}
+            />
+            <HoverButton
+              title="Buy Now"
+              link={`/buy/${product._id}/${userId}  `}
+            />
+          </div>
         </div>
       </div>
     </>
