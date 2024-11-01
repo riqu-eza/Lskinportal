@@ -1,12 +1,10 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import listingRouter from "./Routes/Listing.route.js";
-import orderRouter from "./Routes/Order.route.js";
-import userRouter from "./Routes/User.route.js";
-import searchRouter from "./Routes/Search.route.js";
-import newsletterRouter from "./Routes/Newsletter.route.js";
-import paymentsRouter from "./Routes/Payments.route.js"
+import listingRouter   from "./Routes/Listing.route.js"
+import BookingRouter from "./Routes/Booking.Route.js"
+import  paymentsRouter from "./Routes/Payments.Route.js"
+import AdminRouter from "./Routes/Admin.Route.js"
 import cookieParser from "cookie-parser";
 import path from "path";
 import cors from "cors";
@@ -30,22 +28,25 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
-app.listen(3003, () => {
-  console.log("Server is running on port 3003");
+app.listen(3004, () => {
+  console.log("Server is running on port 3004");
 });
 
-app.use("/api/listing", listingRouter);
-app.use("/api/user", userRouter);
-app.use("/api/order", orderRouter);
-app.use("/api/search", searchRouter);
-app.use("/api/newsletter", newsletterRouter);
-app.use("/api/payments", paymentsRouter)
+   app.use("/api/listing", listingRouter)
+   app.use("/api/booking", BookingRouter)
+   app.use("/api/payments", paymentsRouter)
+   app.use("/api/admin",AdminRouter )
+
+
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
 app.get("*", (req, res, next) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
-});
+}); 
+
+
+app.use('/Receipts', express.static(path.join(__dirname, 'Receipts'))); // Ensure 'Receipts' is correctly cased
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

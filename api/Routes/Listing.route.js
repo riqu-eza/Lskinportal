@@ -1,12 +1,9 @@
 import express from 'express';
-import { createListing, getCategory, getListing, getProduct } from '../controllers/Listing.controller.js';
+import { CreateListing, GetListing } from '../Controller/Listing.controller.js';
 
 const router = express.Router();
 
-
-router.post("/create", createListing);
-router.get("/gellisting", getListing);
-router.get("/products/:id", getProduct);
-router.get("/category/:categoryName",getCategory );
+router.post("/create", CreateListing)
+router.get("/getlisting", GetListing)
 
 export default router;
