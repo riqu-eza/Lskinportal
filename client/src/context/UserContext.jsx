@@ -3,7 +3,6 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 // Create the UserContext
 const UserContext = createContext();
-
 // Custom hook to use the UserContext
 // eslint-disable-next-line react-refresh/only-export-components
 export const useUser = () => {
@@ -14,6 +13,7 @@ export const useUser = () => {
 export const UserProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null); // For user info
   const [loading, setLoading] = useState(true); // To manage loading state
+  // const navigate = useNavigate();
 
   // Function to decode JWT
   const decodeJwt = (token) => {
@@ -21,7 +21,11 @@ export const UserProvider = ({ children }) => {
     const decodedPayload = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
     return JSON.parse(decodedPayload);
   };
-
+  const logout = () => {
+    localStorage.removeItem("token"); // Clear the token
+    setCurrentUser(null); // Reset user info
+    // navigate("/login"); // Redirect to login or another route
+  };
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -67,7 +71,7 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ currentUser, loading }}>
+    <UserContext.Provider value={{ currentUser, loading, logout }}>
       {children}
     </UserContext.Provider>
   );

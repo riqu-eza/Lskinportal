@@ -96,7 +96,7 @@ export const createUser = async (req, res) => {
   export const getProfile = async (req, res) => {
     try {
       // Assuming userId is extracted from the token in authenticateToken
-      const userId = req.user.id; 
+      const userId = req.user.user.id; 
   
       const user = await User.findById(userId).select("-password"); // Avoid sending password
       
