@@ -19,8 +19,10 @@ mongoose
     console.log("Connected to MongoDB!");
   })
   .catch((err) => {
-    console.log(err);
+    console.log("Error connecting to MongoDB:", err.message);
+    console.log("Stack Trace:", err.stack);
   });
+
 
 const __dirname = path.resolve();
 
