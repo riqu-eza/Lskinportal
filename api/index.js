@@ -7,6 +7,7 @@ import userRouter from "./Routes/User.route.js";
 import searchRouter from "./Routes/Search.route.js";
 import newsletterRouter from "./Routes/Newsletter.route.js";
 import paymentsRouter from "./Routes/Payments.route.js"
+import callRouter from "./Routes/Call.route.js"
 import cookieParser from "cookie-parser";
 import path from "path";
 import cors from "cors";
@@ -28,6 +29,20 @@ const __dirname = path.resolve();
 
 const app = express();
 
+app.use(
+  cors({
+    origin: "http://localhost:6054", // Change this to the domain of your frontend
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // If you're using cookies
+  })
+);
+
+app.use(cors({
+  origin: 'https://cosytwobedroominthika.online',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credintials:true,
+}));
+
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
@@ -42,7 +57,7 @@ app.use("/api/order", orderRouter);
 app.use("/api/search", searchRouter);
 app.use("/api/newsletter", newsletterRouter);
 app.use("/api/payments", paymentsRouter)
-
+app.use("/call", callRouter)
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
 app.get("*", (req, res, next) => {

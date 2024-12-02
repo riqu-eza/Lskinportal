@@ -132,7 +132,7 @@ const CreateListing = () => {
     e.preventDefault(); // Prevents the default form submission behavior
 
     try {
-      const response = await fetch("http://localhost:3003/api/listing/create", {
+      const response = await fetch("/api/listing/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

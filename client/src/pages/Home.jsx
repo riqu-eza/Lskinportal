@@ -31,7 +31,7 @@ const Home = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3003/api/listing/gellisting"
+        "/api/listing/gellisting"
       );
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);

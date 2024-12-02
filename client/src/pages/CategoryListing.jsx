@@ -10,7 +10,7 @@ const CategoryListing = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3003/api/listing/category/${categoryName}`
+        `/api/listing/category/${categoryName}`
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

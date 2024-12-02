@@ -17,7 +17,7 @@ const SearchResult = () => {
       if (searchQuery) {
         try {
           const response = await fetch(
-            `http://localhost:3003/api/search/get?query=${searchQuery}`
+            `/api/search/get?query=${searchQuery}`
           ); // Your API endpoint
           const data = await response.json();
           setResults(data);

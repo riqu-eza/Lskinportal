@@ -35,7 +35,7 @@ const Footer = () => {
     console.log("sent", email);
     try {
       const response = await fetch(
-        "http://localhost:3003/api/newsletter/create",
+        "/api/newsletter/create",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

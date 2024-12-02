@@ -12,7 +12,7 @@ const Cart = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       const response = await fetch(
-        `http://localhost:3003/api/listing/products/${productId}`
+        `/api/listing/products/${productId}`
       );
       const product = await response.json();
       addProductToOrder(product);
@@ -85,7 +85,7 @@ const Cart = () => {
     };
     console.log("order", order);
     try {
-      const response = await fetch("http://localhost:3003/api/order/create", {
+      const response = await fetch("/api/order/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

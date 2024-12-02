@@ -1,6 +1,7 @@
 import Checkout from "../Models/checkout.model.js";
 import Order from "../Models/Order.model.js";
 import { sendEmail } from "../utils/email.js";
+
 export const createOrder = async (req, res, next) => {
   console.log(req.body);
 
@@ -61,6 +62,8 @@ export const getorder = async (req, res, next) => {
     next(error);
   }
 };
+
+
 
 export const createCheckout = async (req, res, next) => {
   console.log(req.body);
