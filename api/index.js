@@ -38,7 +38,7 @@ app.use(
 );
 
 app.use(cors({
-  origin: 'https://cosytwobedroominthika.online',
+  origin: 'lskinessentials.com',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credintials:true,
 }));
