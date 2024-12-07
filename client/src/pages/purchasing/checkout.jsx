@@ -108,6 +108,7 @@ const Checkout = () => {
       }
   
       return { success, trackingId };
+      
     } catch (error) {
       console.error("Payment error:", error.message);
       return { success: false, message: error.message };

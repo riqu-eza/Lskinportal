@@ -15,6 +15,7 @@ import Footer from "./components/Footer";
 import About from "./pages/About";
 import NewListing from "./pages/newlisting";
 import Popular from "./pages/Popular";
+import Adminpage from "./admin/admin";
 
 export default function App() {
   return (
@@ -40,6 +41,7 @@ export default function App() {
                 path="/category/:categoryName"
                 element={<CategoryListing />}
               ></Route>
+              <Route path="/admin" element={<Adminpage/>} ></Route>
               <Route path="/search" element={<SearchResult />}></Route>
               <Route path="/login" element={<Login />}></Route>
               <Route path="/signup" element={<Signup />}></Route>

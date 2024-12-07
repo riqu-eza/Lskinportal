@@ -27,7 +27,7 @@
   
   .hover-underline-animation {
     position: relative;
-    color: black;
+    color: #697586;
     padding-bottom: 20px;
   }
   
@@ -36,7 +36,7 @@
     position: absolute;
     width: 100%;
     transform: scaleX(0);
-    height: 2px;
+    height: 1px;
     bottom: 0;
     left: 0;
     background-color: #000000;

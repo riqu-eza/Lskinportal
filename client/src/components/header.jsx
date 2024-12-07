@@ -50,11 +50,11 @@ const Header = () => {
 
   return (
     <>
-      <div className="bg-[#0A1828] text-[#BFA181] flex justify-between items-center p-4 md:p-6">
+      <div className="bg-[#0A182] text-[#BFA181] flex justify-between items-center  md:p-4">
         {/* Left Section with One Word */}
         <div>
-          <Link to="/" className="pl-10 text-5xl font-bold">
-            Lskin
+          <Link to="/" className="pl-10 text-2xl font-bold">
+           <span className="" >Lskin</span>  <span className="text-1xl" >Essentianls </span>
           </Link>
         </div>
 

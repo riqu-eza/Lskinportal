@@ -4,17 +4,15 @@ import CategoryRow from "../components/category";
 import { useUser } from "../context/UserContext";
 import Header from "../components/header";
 import "./home.css";
+import Packages from "../components/packages";
 
 const Home = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [groupedProducts, setGroupedProducts] = useState({});
   const { currentUser } = useUser();
 
-  const images = [
-    "/home1.jpeg",
-    "/home.jpeg",
-   
-  ];
+  const images = ["/home.jpeg"];
+  const imageUrl = ["/rectangle3.png"];
 
   // Image carousel effect
   useEffect(() => {
@@ -30,15 +28,14 @@ const Home = () => {
   // Fetch product data and group by category
   const fetchData = async () => {
     try {
-      const response = await fetch(
-        "/api/listing/gellisting"
-      );
+      const response = await fetch("/api/listing/gellisting");
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
       }
       const data = await response.json();
 
-      const grouped = data.reduce((acc, product) => {
+      // Grouping by category
+      const groupedByCategory = data.reduce((acc, product) => {
         const category = product.category;
         if (!acc[category]) {
           acc[category] = [];
@@ -47,8 +44,26 @@ const Home = () => {
         return acc;
       }, {});
 
-      setGroupedProducts(grouped);
-      console.log(grouped);
+      // Top-rated products
+      const topRatedProducts = [...data]
+        .filter((product) => product.averageRating > 0) // Only include rated products
+        .sort((a, b) => b.averageRating - a.averageRating); // Sort by averageRating descending
+
+      // Most recent products
+      const mostRecentProducts = [...data].sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      ); // Sort by createdAt descending
+
+      // Combine all groupings
+      const combinedGrouped = {
+        ...groupedByCategory,
+        TopRated: topRatedProducts,
+        MostRecent: mostRecentProducts,
+      };
+
+      setGroupedProducts(combinedGrouped);
+
+      console.log(combinedGrouped);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -62,31 +77,62 @@ const Home = () => {
     <>
       <Header />
       {/* Carousel Section */}
-      <div
-        className="relative"
-        style={{
-          backgroundImage: `url(${images[currentImageIndex]})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          height: "75vh",
-          width: "100%",
-          filter: "brightness(90%)",
-        }}
-      >
-        {/* Middle Right Section with Wordings */}
-        <div className="flex flex-col justify-center items-center h-full gap-8 text-center">
-          <p className="text-5xl regtext animate-slide-in-left">
-             Cosmetic & Personal care
-          </p>
-          <h1 style={{ color: "#a67e5a" }} className="regtext text-8xl font-bold animate-slide-in-right">
-            BEAUTY IS IN THE SKIN
-          </h1>
+      <div className="relative flex h-[290px]">
+        {/* Left Section */}
+        <div className="flex-1 relative z-10 p-4 flex flex-col justify-center bg-[#F5E0E5]">
+          {/* Transparent wordings overlaying both containers */}
+          <div
+            className="absolute top-0 left-0 right-[-20] bottom-0 flex flex-col justify-center gap-4 p-8 text-white"
+            style={{ pointerEvents: "none" }}
+          >
+            {/* Header */}
+            <h2
+              className="text-4xl font-bold"
+              style={{
+                color: "#383838",
+                font: "poppins",
+              }}
+            >
+              Experience the Difference
+            </h2>
+
+            {/* Paragraph */}
+            <p
+              className="text-lg leading-relaxed"
+              style={{
+                color: "#383838",
+                font: "poppins",
+              }}
+            >
+              Discover our unique offerings and enjoy unmatched experiences that
+              redefine your expectations. Step into a world of excellence.
+            </p>
+
+            {/* Button */}
+            <div style={{ pointerEvents: "auto" }}>
+              <button className="bg-[#a67e5a] hover:bg-[#86583e] text-white font-semibold py-2 px-4 rounded transition-all">
+                Shop now
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Section with Background Image */}
+        <div
+          className="flex-1 relative overflow-hidden"
+          style={{
+            backgroundImage: `url(${imageUrl})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          {/* Optional dark overlay */}
         </div>
       </div>
 
       {/* Homecontainer Section */}
-      <div
+      {/* <div
         className="relative mx-auto justify-center flex flex-col md:flex-row gap-6"
         style={{
           marginTop: "-90px", // Lift it slightly to overlap the carousel
@@ -105,18 +151,27 @@ const Home = () => {
           description="Discover the latest in skincare."
           navigateTo="/PopularChoises"
         />
+      </div> */}
+      {/* Category Section */}
+      <div className="md:mx-40">
+        {/* Pass only TopRated and MostRecent categories */}
+        {Object.keys(groupedProducts).map((categoryName) => {
+          if (categoryName === "TopRated" || categoryName === "MostRecent") {
+            return (
+              <CategoryRow
+                key={categoryName}
+                categoryName={categoryName}
+                products={groupedProducts[categoryName]} // Pass the products for TopRated and MostRecent
+                userId={currentUser ? currentUser._id : null}
+              />
+            );
+          }
+          return null; // Ensure other categories are not rendered
+        })}
       </div>
 
-      {/* Category Section */}
-      <div className="mt-10">
-        {Object.keys(groupedProducts).map((categoryName) => (
-          <CategoryRow
-            key={categoryName}
-            categoryName={categoryName}
-            products={groupedProducts[categoryName]}
-            userId={currentUser ? currentUser._id : null}
-          />
-        ))}
+      <div className="md:mx-56" >
+        <Packages products={groupedProducts["Gift set packages"]} />
       </div>
     </>
   );
