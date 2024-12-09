@@ -16,6 +16,7 @@ import About from "./pages/About";
 import NewListing from "./pages/newlisting";
 import Popular from "./pages/Popular";
 import Adminpage from "./admin/admin";
+import Addblog from "./admin/createblog";
 
 export default function App() {
   return (
@@ -41,6 +42,7 @@ export default function App() {
                 path="/category/:categoryName"
                 element={<CategoryListing />}
               ></Route>
+              <Route path='/addblog' element={<Addblog/>} ></Route>
               <Route path="/admin" element={<Adminpage/>} ></Route>
               <Route path="/search" element={<SearchResult />}></Route>
               <Route path="/login" element={<Login />}></Route>

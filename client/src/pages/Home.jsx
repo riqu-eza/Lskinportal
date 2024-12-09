@@ -5,6 +5,7 @@ import { useUser } from "../context/UserContext";
 import Header from "../components/header";
 import "./home.css";
 import Packages from "../components/packages";
+import BlogComponent from "../components/bloglisting";
 
 const Home = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -110,7 +111,7 @@ const Home = () => {
 
             {/* Button */}
             <div style={{ pointerEvents: "auto" }}>
-              <button className="bg-[#a67e5a] hover:bg-[#86583e] text-white font-semibold py-2 px-4 rounded transition-all">
+              <button className="bg-[#F5A3B7] hover:bg-[#252525] text-white font-semibold py-2 px-4 rounded transition-all">
                 Shop now
               </button>
             </div>
@@ -170,8 +171,11 @@ const Home = () => {
         })}
       </div>
 
-      <div className="md:mx-56" >
+      <div className="md:mx-40" >
         <Packages products={groupedProducts["Gift set packages"]} />
+      </div>
+      <div className="md:mx-40" >
+        <BlogComponent/>
       </div>
     </>
   );
