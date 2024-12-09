@@ -1,33 +1,28 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Header from "../components/header";
-import HoverButton from "../ux/HoverButton";
 import { FaCheck } from "react-icons/fa";
 
 const ProductListing = () => {
-  const { productId, userId } = useParams(); // Getting product ID from route
-  const [quantity, setQuantity] = useState(1);
+  const { productId, userId } = useParams();
   const [showIngredients, setShowIngredients] = useState(false);
   const [showHowToUse, setShowHowToUse] = useState(false);
   const [product, setProduct] = useState();
-  const [selectedImage, setSelectedImage] = useState(""); // New state to track selected image
-  const [loading, setLoading] = useState(true); // State for loading status
+  const [selectedImage, setSelectedImage] = useState(""); 
+  const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null);
 
-  // Fetch product data from API
   const fetchProduct = async () => {
     try {
-      const response = await fetch(
-        `/api/listing/products/${productId}`
-      );
+      const response = await fetch(`/api/listing/products/${productId}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      setProduct(data); // Update product state with fetched data
-      setSelectedImage(data.imageUrls[0]); // Set the first image as default
+      setProduct(data);
+      setSelectedImage(data.imageUrls[0]); 
       setLoading(false);
     } catch (error) {
       setError(error.message);
@@ -37,7 +32,7 @@ const ProductListing = () => {
 
   useEffect(() => {
     fetchProduct();
-  }, [productId]); // Re-fetch data when the id changes
+  }, [productId]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -47,115 +42,93 @@ const ProductListing = () => {
     return <div>Error: {error}</div>;
   }
 
-  const handleIncrement = () => {
-    setQuantity(quantity + 1);
-  };
-
-  const handleDecrement = () => {
-    if (quantity > 1) setQuantity(quantity - 1);
-  };
-
   return (
     <>
       <Header />
-      <div className="flex  m-2 p-1 gap-1 ">
+      <div className="flex flex-col md:flex-row gap-2 p-2">
         {/* Left Section */}
-        <div className="w-2/3 p-1  flex flex-col">
+        <div className="flex-1 p-1 flex flex-col items-center justify-center">
           {/* Main Image */}
-          <div className="items-center  p-1 justify-center pl-64 ">
-            <div className="   h-96 p-1 mb-2">
-              <img
-                src={selectedImage} // Display selected image here
-                alt={product.name}
-                className="h-full border object-cover"
-              />
-            </div>
-
-            {/* Image Gallery */}
-            <div className="grid grid-cols-5 gap-2 mb-4">
-              {product.imageUrls.map((img, index) => (
-                <div
-                  key={index}
-                  className="h-20 p-1 gap-3  cursor-pointer"
-                  onClick={() => setSelectedImage(img)} // Update the main image on click
-                >
-                  <img
-                    src={img}
-                    alt={`Thumbnail ${index + 1}`}
-                    className="h-full  object-cover"
-                  />
-                </div>
-              ))}
-            </div>
+          <div className="h-96 mb-2">
+            <img
+              src={selectedImage}
+              alt={product.name}
+              className="w-full h-full border object-cover"
+            />
           </div>
-          {/* Ingredient and How to Use Buttons */}
-          <div className="flex flex-col p-1 mt-1 gap-1  justify-between">
-            <div className="p-1 b">
-              <button
-                onClick={() => setShowIngredients(!showIngredients)}
-                className=" p-1  rounded"
-              >
-                Ingredients
-              </button>
-              {showIngredients && (
-                <ul className="mt-2 p-1  bg-gray-200 rounded-md  ">
-                  {product.ingridients.map((ingredient, index) => (
-                    <li className=" p-1 m-1 flex gap-1" key={index}><FaCheck  className=" text-xl mt-1 gap-1"  /> {ingredient}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
-            <div className="] p-1 ">
-              <button
-                onClick={() => setShowHowToUse(!showHowToUse)}
-                className="p-1  rounded"
-              >
-                How to Use
-              </button>
 
-              {/* Displaying Ingredients or How to Use */}
-
-              {showHowToUse && (
-                <ul className=" p-1 m-1 bg-gray-200 shadow-lg rounded-md ">
-                  {product.howtouse.map((instruction, index) => (
-                    <li className=" p-1 m-1 flex gap-1 " key={index}> <FaCheck  className=" text-xl mt-1 gap-1"  /> {instruction} </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+          {/* Image Gallery */}
+          <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-2 mb-4">
+            {product.imageUrls.map((img, index) => (
+              <div
+                key={index}
+                className="h-20 cursor-pointer"
+                onClick={() => setSelectedImage(img)} 
+              >
+                <img
+                  src={img}
+                  alt={`Thumbnail ${index + 1}`}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            ))}
           </div>
         </div>
 
         {/* Right Section */}
-        <div className="w-1/3 p-4 flex flex-col">
-          <h2 className="text-2xl   font-bold">
+        <div className="flex-1 p-4 flex flex-col">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-[#383838] mb-2">
             {product.name}
           </h2>
-          <h3 className="text-xl  pt-2 text-[#BFA181]">
-           Ksh {product.price}
+          <h3 className="text-lg font-semibold text-[#383838] mb-2">
+            Ksh {product.price}
           </h3>
-
-          {/* Quantity Section */}
-          <div className="flex border-gray-300 border-2 w-fit items-center mt-4">
-            <button onClick={handleDecrement} className=" p-2  rounded">
-              -
-            </button>
-            <span className="mx-4  text-lg">{quantity}</span>
-            <button onClick={handleIncrement} className=" p-2 rounded">
-              +
-            </button>
-          </div>
+          <p className="text-sm sm:text-base text-[#697586] mb-4">{product.description}</p>
+          <p className="text-sm sm:text-base text-[#697586] mb-4">Size: {product.amount}</p>
 
           {/* Action Buttons */}
           <div className="mt-4 flex flex-col gap-2">
-            <HoverButton
-              title="Add to Cart"
-              link={`/cart/${product._id}/${userId}`}
-            />
-            <HoverButton
-              title="Buy Now"
-              link={`/buy/${product._id}/${userId}  `}
-            />
+            <Link
+              to={`/cart/${product._id}/${userId}`}
+              className="bg-[#F5A3B7] hover:bg-[#383838] text-white font-semibold py-2 px-4 text-center rounded-md w-full sm:w-1/2"
+            >
+              Add to Bag
+            </Link>
+          </div>
+
+          {/* Ingredients & How to Use */}
+          <div className="flex flex-col mt-4">
+            <button
+              onClick={() => setShowIngredients(!showIngredients)}
+              className="text-[#383838] font-semibold text-lg p-2 border-b border-black"
+            >
+              Ingredients
+            </button>
+            {showIngredients && (
+              <ul className="bg-gray-200 rounded-md p-2 mt-2">
+                {product.ingridients.map((ingredient, index) => (
+                  <li className="flex items-center gap-2" key={index}>
+                    <FaCheck className="text-xl" /> {ingredient}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <button
+              onClick={() => setShowHowToUse(!showHowToUse)}
+              className="text-[#383838] font-semibold text-lg p-2 border-b border-black mt-2"
+            >
+              How to Use
+            </button>
+            {showHowToUse && (
+              <ul className="bg-gray-200 rounded-md p-2 mt-2">
+                {product.howtouse.map((instruction, index) => (
+                  <li className="flex items-center gap-2" key={index}>
+                    <FaCheck className="text-xl" /> {instruction}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       </div>

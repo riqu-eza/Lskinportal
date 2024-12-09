@@ -34,14 +34,11 @@ const Footer = () => {
     }
     console.log("sent", email);
     try {
-      const response = await fetch(
-        "/api/newsletter/create",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(email),
-        }
-      );
+      const response = await fetch("/api/newsletter/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(email),
+      });
 
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`);
@@ -55,15 +52,21 @@ const Footer = () => {
     }
   };
   return (
-    <footer className="bg-gray-800  text-white p-8">
-      <div className=" m-1 ">
-        <h2 className="  p-2 m-1 text-center text-3xl  ">LSkin</h2>
+    <footer className="bg-[#252525] text-white p-8">
+      <div className="flex justify-center items-center text-center text-[28px] font-[Poppins]">
+        <Link to="/" className="flex flex-row items-center">
+          <span className="text-[#F5A3B7] font-medium">Lskin</span>{" "}
+          <span className="text-white font-medium">Essentials</span>
+        </Link>
       </div>
+
       <div className="container items-start mx-auto flex flex-col m-1 gap-1 top-2 p-1 md:flex-row  justify-between">
         {/* Opening Days */}
         <div className="mb-6 md:mb-0 flex-1 p-2">
-          <h3 className="text-lg text-center p-1    font-bold">Opening Days</h3>
-          <ul className="pl-5  border-2 mt-2  ">
+          <h3 className="text-lg text-center p-1  font-[Poppins]  text-[#dbb264] font-bold">
+            Opening Days
+          </h3>
+          <ul className="pl-5  border-2  text-[#697586] font-[Montserrat] mt-2  ">
             <li className="grid grid-cols-2 gap-4">
               <span>Monday</span> <span>9 AM - 5 PM</span>
             </li>
@@ -93,14 +96,14 @@ const Footer = () => {
 
         {/* Company Policy */}
         <div className="mb-6 md:mb-0  flex-1 p-2">
-          <h3 className="text-lg text-center   p-1 font-bold">
+          <h3 className="text-lg text-center font-[Poppins] text-[#dbb264] p-1 font-bold">
             Company Policy
           </h3>
-          <p className="mt-2    ">
+          <p className="mt-2 text-[#697586] font-[Montserrat]  ">
             Go Green by providing organic products that are clean and made of
             nature with skin nourishing ingridients.
           </p>
-          <p className="mt-2  ">
+          <p className="mt-2 text-[#697586] font-[Montserrat] ">
             Go Green by providing organic products that are clean and made of
             nature with skin nourishing ingridients.
           </p>
@@ -108,7 +111,10 @@ const Footer = () => {
 
         {/* Newsletter Subscription */}
         <div className="mb-6 md:mb-0  flex-1 p-2">
-          <h3 className="text-lg text-center   p-1 font-bold"> Newsletter</h3>
+          <h3 className="text-lg text-center font-[Poppins] text-[#dbb264] p-1 font-bold">
+            {" "}
+            Newsletter
+          </h3>
           <form
             className="flex p-1 flex-col gap-6 mt-2"
             onSubmit={handleSubmit}
@@ -134,20 +140,23 @@ const Footer = () => {
 
         {/* Contact Information */}
         <div className="mb-6 md:mb-0 flex-1 p-2">
-          <h3 className="text-lg    text-center p-1  font-bold">Contact Us</h3>
+          <h3 className="text-lg    text-center p-1 font-[Poppins] text-[#dbb264] font-bold">
+            Contact Us
+          </h3>
           <div className="mt-2 flex flex-col gap-4  p-4">
             <p className="flex items-center">
-              <FiMapPin className="mr-2 text-[#a67e5a]" /> 1234 Kangundo Rd,NR
+              <FiMapPin className="mr-2  text-[#697586] font-[Montserrat]" />{" "}
+              1234 Kangundo Rd,NR
             </p>
             <p className="flex items-center">
-              <FiSmartphone className="mr-2 text-[#a67e5a]" /> Phone: +254
-              745168783
+              <FiSmartphone className="mr-2  text-[#697586] font-[Montserrat]" />{" "}
+              Phone: +254 745168783
             </p>
             <p className="flex items-center">
-              <FiMail className="mr-2 text-[#a67e5a]" />
+              <FiMail className="mr-2 text-[#697586] font-[Montserrat]" />
               <a
                 href="mailto:info@Lskinessentials.com"
-                className="text-[#a67e5a]"
+                className="text-[#697586] font-[Montserrat]"
               >
                 Email: info@Lskinessentials.com
               </a>

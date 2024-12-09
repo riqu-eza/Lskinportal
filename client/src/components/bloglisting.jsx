@@ -47,7 +47,7 @@ const BlogComponent = () => {
   }
 
   return (
-    <div className="mx-auto px-2 py-4 w-[1000px] h-[546px]">
+    <div className="mx-auto px-2 py-4 ">
       <div className="text-center" >
         <h1 className="text-[24px] font-[Poppins] font-bold text-center text-[#383838] ">
           Our Blogs

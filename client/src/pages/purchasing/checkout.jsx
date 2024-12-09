@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { useUser } from "../../context/UserContext";
 import Header from "../../components/header";
 
-
-
 const Checkout = () => {
   const { productId, userId, orderId } = useParams();
   const { currentUser } = useUser();
@@ -98,52 +96,51 @@ const Checkout = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ orderId, formData }),
       });
-  
-      if (!paymentResponse.ok) throw new Error("Payment failed. Please try again.");
-  
+
+      if (!paymentResponse.ok)
+        throw new Error("Payment failed. Please try again.");
+
       const { success, trackingId, redirectUrl } = await paymentResponse.json();
-  
+
       if (success && redirectUrl) {
         window.location.href = redirectUrl; // Redirect user to the payment page
       }
-  
+
       return { success, trackingId };
-      
     } catch (error) {
       console.error("Payment error:", error.message);
       return { success: false, message: error.message };
     }
   };
-  
-  
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-  
+
     try {
       // Step 1: Create the Order
       const createdOrderId = await createOrder();
       if (!createdOrderId) return;
-  
+
       // Step 2: Process Payment
       const paymentSuccess = await processPayment(createdOrderId);
       if (!paymentSuccess) return;
-  
+
       // Step 3: Complete Checkout
       await completeCheckout(createdOrderId);
-  
+
       // Reset the form and show success message
       resetForm();
-      setSuccessMessage("Order completed successfully! A confirmation email will be sent to you shortly.");
+      setSuccessMessage(
+        "Order completed successfully! A confirmation email will be sent to you shortly."
+      );
     } catch (error) {
       console.error("An error occurred:", error.message);
     } finally {
       setLoading(false);
     }
   };
-  
+
   // Helper function to create the order
   const createOrder = async () => {
     setStep("order");
@@ -152,7 +149,7 @@ const Checkout = () => {
       quantity: item.quantity,
       price: item.price,
     }));
-  
+
     const orderResponse = await fetch("/api/order/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -163,7 +160,7 @@ const Checkout = () => {
         discount,
       }),
     });
-  
+
     if (orderResponse.ok) {
       const orderData = await orderResponse.json();
       console.log("Order created successfully:", orderData);
@@ -174,11 +171,11 @@ const Checkout = () => {
       return null;
     }
   };
-  
+
   // Helper function to process the payment
   const processPayment = async (orderId) => {
     setStep("payment");
-  
+
     const paymentResponse = await Pay(orderId); // Use the updated Pay function
     if (paymentResponse.success) {
       console.log("Payment succeeded:", paymentResponse);
@@ -189,7 +186,7 @@ const Checkout = () => {
       return false;
     }
   };
-  
+
   // Helper function to complete the checkout
   const completeCheckout = async (orderId) => {
     setStep("checkout");
@@ -201,13 +198,13 @@ const Checkout = () => {
       discount,
       orderItems,
     };
-  
+
     const checkoutResponse = await fetch("/api/order/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(checkoutData),
     });
-  
+
     if (checkoutResponse.ok) {
       const responseData = await checkoutResponse.json();
       console.log("Checkout completed successfully:", responseData);
@@ -216,7 +213,7 @@ const Checkout = () => {
       setLoading(false);
     }
   };
-  
+
   // Helper function to reset the form
   const resetForm = () => {
     setFormData({
@@ -241,7 +238,6 @@ const Checkout = () => {
     setShipping(0);
     setDiscount(0);
   };
-  
 
   return (
     <>
@@ -424,7 +420,11 @@ const Checkout = () => {
                   className="flex items-center border border-gray-200 py-4 mb-4"
                 >
                   <img
-                    src={item.imageUrl}
+                    src={
+                      item.imageUrls && item.imageUrls.length > 0
+                        ? item.imageUrls[0]
+                        : "/fallback.jpg"
+                    }
                     alt={item.name}
                     className="w-20 h-20 object-cover rounded mr-4"
                   />

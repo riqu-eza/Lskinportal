@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FiSearch, FiMenu } from "react-icons/fi"; // Added FiMenu for the hamburger icon
-import "./components.css"; // Ensure this file contains any custom styles you might have
+import { FiSearch, FiMenu, FiShoppingCart } from "react-icons/fi";
+import "./components.css";
 
 const Header = () => {
   const categoryOptions = [
@@ -14,12 +14,12 @@ const Header = () => {
   ];
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-  // eslint-disable-next-line no-unused-vars
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [isMenuOpen, setMenuOpen] = useState(false);
   const [isInputVisible, setIsInputVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isMenuOpen, setMenuOpen] = useState(false); // State for the mobile menu
   const navigate = useNavigate();
+
+  const mobileMenuRef = useRef(null); // Ref for the mobile menu
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -28,50 +28,49 @@ const Header = () => {
   };
 
   const handleCategorySelect = (category) => {
-    setSelectedCategory(category);
     setDropdownOpen(false);
+    navigate(`/category/${category}`);
   };
 
-  // Close dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (!event.target.closest(".dropdown-container")) {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
+        setMenuOpen(false);
         setDropdownOpen(false);
       }
-      if (!event.target.closest(".menu-container")) {
-        setMenuOpen(false); // Close mobile menu if clicked outside
-      }
     };
+
     document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
+    return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
   return (
     <>
-      <div className="bg-[#0A182] text-[#252525] flex justify-between items-center  md:p-4">
-        {/* Left Section with One Word */}
+      {/* Default (Desktop) View */}
+      <div className="bg-[#0A182E] text-white hidden md:flex justify-between items-center p-4">
+        {/* Left Section */}
         <div>
           <Link to="/" className="pl-10 text-2xl font-bold">
-           <span className=" text-[#F5A3B7] " >Lskin</span>  <span className="text-1xl text-[#000000] " >Essentianls </span>
+            <span className="text-[#F5A3B7]">Lskin</span>{" "}
+            <span className="text-white">Essentials</span>
           </Link>
         </div>
 
-        {/* Right Section for Desktop View */}
-        <div className="hidden md:flex gap-8 ">
+        {/* Center Navigation */}
+        <div className="flex gap-8">
           <Link to="/About" className="text-lg hover:underline">
             About
           </Link>
 
+          {/* Dropdown Shop */}
           <div className="relative dropdown-container">
             <button
               className="text-lg hover:underline"
-              onClick={() => setDropdownOpen(!isDropdownOpen)} // Toggle dropdown on click
+              onClick={() => setDropdownOpen(!isDropdownOpen)}
             >
               Shop
             </button>
-
             {isDropdownOpen && (
               <ul className="absolute mt-2 w-48 bg-white shadow-md rounded-md border border-gray-300 z-10">
                 {categoryOptions.map((category) => (
@@ -87,6 +86,7 @@ const Header = () => {
             )}
           </div>
 
+          {/* Search */}
           <div className="relative text-lg">
             {!isInputVisible ? (
               <span
@@ -120,73 +120,70 @@ const Header = () => {
             Account
           </Link>
         </div>
-
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <button
-            onClick={() => {
-              setMenuOpen((prev) => !prev); // Toggle mobile menu
-            }}
-            className="text-3xl"
-          >
-            <FiMenu />
-          </button>
-        </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile View */}
+      <div className="bg-[#0A182E] text-white flex md:hidden justify-between items-center p-4">
+        {/* Menu Icon */}
+        <button
+          onClick={() => setMenuOpen((prev) => !prev)}
+          className="text-3xl"
+        >
+          <FiMenu />
+        </button>
+
+        {/* Title (Centered) */}
+        <div className="absolute left-1/2 transform -translate-x-1/2 text-2xl font-bold">
+          <Link to="/" className="flex items-center">
+            <span className="text-[#F5A3B7]">Lskin</span>{" "}
+            <span className="text-white">Essentials</span>
+          </Link>
+        </div>
+
+        {/* Cart Icon */}
+        <Link to="/cart" className="relative text-3xl">
+          <FiShoppingCart />
+          {/* Cart Badge */}
+          <span className="absolute -top-1 -right-2 bg-red-500 text-xs rounded-full px-1">
+            {}
+          </span>
+        </Link>
+      </div>
+
+      {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="bg-white shadow-md rounded-md border border-gray-900 z-70 p-4 md:hidden menu-container">
-          <Link to="/About" className="block py-2 hover:underline">
+        <div
+          ref={mobileMenuRef}
+          className="bg-white shadow-lg rounded-md border border-gray-200 z-50 p-4 md:hidden"
+        >
+          <Link to="/About" className="block py-2 text-gray-800 hover:underline">
             About
           </Link>
           <div className="relative">
             <button
-              className="block py-2 hover:underline"
-              onClick={() => setDropdownOpen((prev) => !prev)} // Toggle dropdown in mobile menu
+              className="block py-2 text-gray-800 hover:underline"
+              onClick={() => setDropdownOpen((prev) => !prev)}
             >
               Shop
             </button>
             {isDropdownOpen && (
-              <ul className="bg-white shadow-md rounded-md border border-gray-300 mt-2">
+              <ul className="bg-white shadow-md rounded-md mt-2">
                 {categoryOptions.map((category) => (
-                  <li key={category} className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    <Link to={`/category/${category}`}>{category}</Link>
+                  <li
+                    key={category}
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => handleCategorySelect(category)}
+                  >
+                    {category}
                   </li>
                 ))}
               </ul>
             )}
           </div>
-          <div className="relative">
-            {!isInputVisible ? (
-              <span
-                className="block py-2 cursor-pointer hover:underline"
-                onClick={() => setIsInputVisible(true)}
-              >
-                Search
-              </span>
-            ) : (
-              <div className="flex items-center border border-gray-300 rounded-md p-2 bg-white shadow-lg">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="border-none outline-none p-2 w-40"
-                  placeholder="Search..."
-                />
-                <button
-                  onClick={handleSearch}
-                  className="ml-2 p-2 text-gray-500 hover:text-gray-800"
-                >
-                  <FiSearch size={20} />
-                </button>
-              </div>
-            )}
-          </div>
-          <Link to="/cart" className="block py-2 hover:underline">
+          <Link to="/cart" className="block py-2 text-gray-800 hover:underline">
             Cart
           </Link>
-          <Link to="/login" className="block py-2 hover:underline">
+          <Link to="/login" className="block py-2 text-gray-800 hover:underline">
             Account
           </Link>
         </div>

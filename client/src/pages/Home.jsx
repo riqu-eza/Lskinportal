@@ -1,4 +1,3 @@
-import Homecontainer from "../components/Homcontainers";
 import { useEffect, useState } from "react";
 import CategoryRow from "../components/category";
 import { useUser } from "../context/UserContext";
@@ -8,7 +7,7 @@ import Packages from "../components/packages";
 import BlogComponent from "../components/bloglisting";
 
 const Home = () => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [setCurrentImageIndex] = useState(0);
   const [groupedProducts, setGroupedProducts] = useState({});
   const { currentUser } = useUser();
 
@@ -24,6 +23,7 @@ const Home = () => {
     }, 3000);
 
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [images.length]);
 
   // Fetch product data and group by category
@@ -78,59 +78,54 @@ const Home = () => {
     <>
       <Header />
       {/* Carousel Section */}
-      <div className="relative flex h-[290px]">
-        {/* Left Section */}
-        <div className="flex-1 relative z-10 p-4 flex flex-col justify-center bg-[#F5E0E5]">
-          {/* Transparent wordings overlaying both containers */}
-          <div
-            className="absolute top-0 left-0 right-[-20] bottom-0 flex flex-col justify-center gap-4 p-8 text-white"
-            style={{ pointerEvents: "none" }}
-          >
-            {/* Header */}
-            <h2
-              className="text-4xl font-bold"
-              style={{
-                color: "#383838",
-                font: "poppins",
-              }}
-            >
-              Experience the Difference
-            </h2>
+      <div className="relative flex h-[290px] md:h-[350px] lg:h-[400px]">
+  {/* Left Section */}
+  <div className="w-[25%] md:w-[25%] lg:w-[25%] overflow-hidden bg-[#F5E0E5] p-4 md:p-6 lg:p-8">
+    {/* Content inside left section */}
+  </div>
 
-            {/* Paragraph */}
-            <p
-              className="text-lg leading-relaxed"
-              style={{
-                color: "#383838",
-                font: "poppins",
-              }}
-            >
-              Discover our unique offerings and enjoy unmatched experiences that
-              redefine your expectations. Step into a world of excellence.
-            </p>
+  {/* Text Overlay */}
+  <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+    <div className="text-center px-4 md:px-8">
+      <h2
+        className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight"
+        style={{
+          color: "#383838",
+          fontFamily: "Poppins",
+        }}
+      >
+        Experience the Difference
+      </h2>
+      <p
+        className="text-sm md:text-lg lg:text-xl mt-2 leading-relaxed"
+        style={{
+          color: "#383838",
+          fontFamily: "Poppins",
+        }}
+      >
+        Discover our unique offerings and enjoy unmatched experiences that
+        redefine your expectations. Step into a world of excellence.
+      </p>
+      <button className="mt-4 bg-[#F5A3B7] hover:bg-[#252525] text-white font-semibold py-2 px-4 rounded transition-all pointer-events-auto">
+        Shop now
+      </button>
+    </div>
+  </div>
 
-            {/* Button */}
-            <div style={{ pointerEvents: "auto" }}>
-              <button className="bg-[#F5A3B7] hover:bg-[#252525] text-white font-semibold py-2 px-4 rounded transition-all">
-                Shop now
-              </button>
-            </div>
-          </div>
-        </div>
+  {/* Right Section with Background Image */}
+  <div
+    className="flex-grow relative z-15 overflow-hidden"
+    style={{
+      backgroundImage: `url(${imageUrl})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+    }}
+  ></div>
+</div>
 
-        {/* Right Section with Background Image */}
-        <div
-          className="flex-1 relative overflow-hidden"
-          style={{
-            backgroundImage: `url(${imageUrl})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-        >
-          {/* Optional dark overlay */}
-        </div>
-      </div>
+
+
 
       {/* Homecontainer Section */}
       {/* <div
@@ -171,11 +166,11 @@ const Home = () => {
         })}
       </div>
 
-      <div className="md:mx-40" >
+      <div className="md:mx-40">
         <Packages products={groupedProducts["Gift set packages"]} />
       </div>
-      <div className="md:mx-40" >
-        <BlogComponent/>
+      <div className="md:mx-40">
+        <BlogComponent />
       </div>
     </>
   );
