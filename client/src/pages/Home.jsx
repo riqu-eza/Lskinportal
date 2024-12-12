@@ -149,7 +149,7 @@ const Home = () => {
         />
       </div> */}
       {/* Category Section */}
-      <div className="md:mx-40">
+      <div className="md:mx-40  mx-4 ">
         {/* Pass only TopRated and MostRecent categories */}
         {Object.keys(groupedProducts).map((categoryName) => {
           if (categoryName === "TopRated" || categoryName === "MostRecent") {
@@ -169,7 +169,7 @@ const Home = () => {
       <div className="md:mx-40">
         <Packages products={groupedProducts["Gift set packages"]} />
       </div>
-      <div className="md:mx-40">
+      <div className="md:mx-40 mx-4">
         <BlogComponent />
       </div>
     </>

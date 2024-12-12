@@ -8,7 +8,8 @@ import searchRouter from "./Routes/Search.route.js";
 import newsletterRouter from "./Routes/Newsletter.route.js";
 import paymentsRouter from "./Routes/Payments.route.js";
 import callRouter from "./Routes/Call.route.js";
-import blogRouter from "./Routes/blog.route.js"
+import blogRouter from "./Routes/blog.route.js";
+import inprouter from "./Routes/ipn.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import cors from "cors";
@@ -32,20 +33,14 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:6054", // Change this to the domain of your frontend
+    origin: ["http://localhost:6054", "https://lskinessentials.com"],
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // If you're using cookies
+    credentials: true,
   })
 );
 
-app.use(cors({
-  origin: 'lskinessentials.com',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credintials:true,
-}));
 
 app.use(express.json());
-app.use(cors());
 app.use(cookieParser());
 
 app.listen(3003, () => {
@@ -60,6 +55,7 @@ app.use("/api/newsletter", newsletterRouter);
 app.use("/api/payments", paymentsRouter)
 app.use('/api/blog', blogRouter)
 app.use("/call", callRouter)
+app.use("/api/ipn", inprouter)
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
 app.get("*", (req, res, next) => {
