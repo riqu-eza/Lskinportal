@@ -63,8 +63,6 @@ export const getorder = async (req, res, next) => {
   }
 };
 
-
-
 export const createCheckout = async (req, res, next) => {
   console.log(req.body);
 
@@ -147,5 +145,14 @@ export const createCheckout = async (req, res, next) => {
       message: "An unexpected error occurred",
       error: err.message, // Send the error message for debugging
     });
+  }
+};
+
+export const checkout = async (req, res, next) => {
+  try {
+    const order = await Checkout.find();
+    res.status(200).json(order);
+  } catch (e) {
+    next(e);
   }
 };

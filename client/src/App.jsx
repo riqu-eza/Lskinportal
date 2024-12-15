@@ -17,6 +17,8 @@ import NewListing from "./pages/newlisting";
 import Popular from "./pages/Popular";
 import Adminpage from "./admin/admin";
 import Addblog from "./admin/createblog";
+import ManageListing from "./admin/manageListing";
+import ManagerOrders from "./admin/Manageorders";
 
 export default function App() {
   return (
@@ -43,6 +45,8 @@ export default function App() {
                 element={<CategoryListing />}
               ></Route>
               <Route path='/addblog' element={<Addblog/>} ></Route>
+              <Route path="/manageorders" element={<ManagerOrders/>} ></Route>
+              <Route path='/managelisting' element={<ManageListing/>} ></Route>
               <Route path="/admin" element={<Adminpage/>} ></Route>
               <Route path="/search" element={<SearchResult />}></Route>
               <Route path="/login" element={<Login />}></Route>
