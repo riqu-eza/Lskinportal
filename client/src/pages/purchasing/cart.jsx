@@ -14,7 +14,6 @@ const Cart = () => {
     const fetchProduct = async () => {
       const response = await fetch(`/api/listing/products/${productId}`);
       const product = await response.json();
-      console.log("cartproduct", product);
       addProductToOrder(product);
     };
 
@@ -29,7 +28,6 @@ const Cart = () => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setOrderItems(storedCart);
   }, []);
-console.log("rderitems", orderItems)
   // Save cart to local storage whenever orderItems changes
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(orderItems));
@@ -84,7 +82,6 @@ console.log("rderitems", orderItems)
       items: orderItems,
       totalPrice,
     };
-    console.log("order", order);
     try {
       const response = await fetch("/api/order/create", {
         method: "POST",

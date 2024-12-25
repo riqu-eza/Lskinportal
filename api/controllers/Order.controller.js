@@ -64,7 +64,7 @@ export const getorder = async (req, res, next) => {
 };
 
 export const createCheckout = async (req, res, next) => {
-  console.log(req.body);
+  console.log("checkout",req.body);
 
   try {
     // Validate the request body before proceeding
@@ -76,49 +76,59 @@ export const createCheckout = async (req, res, next) => {
     if (req.body.userId === "null") {
       delete req.body.userId; // This will exclude userId from being saved
     }
-
-    // Create the order
-    const checkout = await Checkout.create(req.body);
-
-    // Fetch the complete order details using the orderId
     const completeOrder = await Order.findById(req.body.orderId); // Assuming order._id is the orderId
     console.log("completeorder", completeOrder);
+    // Create the order
+   
+    const checkout = await Checkout.create(req.body);
+console.log("well  of checkout");
+    // Fetch the complete order details using the orderId
+   
     // Construct the email body with item details
     const emailBody = `
-    <div style="background-color: #f4f4f9; padding: 20px; font-family: Arial, sans-serif; color: #333;">
-        <div style="max-width: 600px; margin: auto; background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-            <h2 style="color: #4A90E2; text-align: center;">Your LSkin Order Confirmation</h2>
-            <p style="font-size: 16px;">Dear ${req.body.firstName} ${req.body.lastName},</p>
-            <p style="font-size: 16px;">Your LSkin order has been confirmed. Here are the details:</p>
-            <ul style="list-style-type: none; padding: 0;">
-                <li style="font-size: 16px; margin-bottom: 8px;">
-                    <strong>Order ID:</strong> ${completeOrder._id}
-                </li>
-                <li style="font-size: 16px; margin-bottom: 8px;">
-                    <strong>Total Cost:</strong> ksh${completeOrder.totalPrice}
-                </li>
-                <li style="font-size: 16px; margin-bottom: 8px;"><strong>Items:</strong></li>
-                <ul style="padding-left: 20px; margin: 10px 0; font-size: 16px;">
-                    ${completeOrder.items
-                      .map(
-                        (item) => `
-                        <li>${item.name} - Ksh${item.price} x ${item.quantity}</li>
-                    `
-                      )
-                      .join("")}
-                </ul>
-            </ul>
-            <p style="font-size: 16px;">Items will be delivered to:</p>
-            <p style="font-size: 16px; color: #4A90E2; margin-bottom: 20px;">
+    <div style="background-color: #f9f9f9; padding: 30px; font-family: 'Arial', sans-serif; color: #333;">
+        <div style="max-width: 600px; margin: auto; background: #ffffff; border-radius: 10px; padding: 20px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+            <h2 style="color: #4A90E2; text-align: center; font-size: 24px; margin-bottom: 20px;">Your LSkin Order Confirmation</h2>
+            <p style="font-size: 16px; margin-bottom: 20px;">Dear <strong>${req.body.firstName} ${req.body.lastName}</strong>,</p>
+            <p style="font-size: 16px; margin-bottom: 20px;">Thank you for shopping with LSkin! Your order has been successfully confirmed. Here are your order details:</p>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <tr style="background-color: #f4f4f9;">
+                    <th style="text-align: left; padding: 10px; border: 1px solid #ddd;">Item</th>
+                    <th style="text-align: left; padding: 10px; border: 1px solid #ddd;">Price</th>
+                    <th style="text-align: left; padding: 10px; border: 1px solid #ddd;">Quantity</th>
+                    <th style="text-align: left; padding: 10px; border: 1px solid #ddd;">Total</th>
+                </tr>
+                ${completeOrder.items
+                  .map(
+                    (item) => `
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${item.name}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">Ksh${item.price}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${item.quantity}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">Ksh${item.price * item.quantity}</td>
+                    </tr>
+                  `
+                  )
+                  .join("")}
+            </table>
+            <p style="font-size: 16px; margin-bottom: 10px;"><strong>Order ID:</strong> ${completeOrder._id}</p>
+            <p style="font-size: 16px; margin-bottom: 10px;"><strong>Total Cost:</strong> Ksh${completeOrder.totalPrice}</p>
+            <p style="font-size: 16px; margin-bottom: 10px;"><strong>Payment Account:</strong> ${req.body.paymentDetails.payment_account}</p>
+            
+            <p style="font-size: 16px; margin-bottom: 10px;"><strong>Payment Status:</strong> ${req.body.paymentDetails.payment_status_description}</p>
+            <p style="font-size: 16px; margin-bottom: 10px;"><strong>Payment Confirmation code:</strong> ${req.body.paymentDetails.confirmation_code}</p>
+            <p style="font-size: 16px; margin-bottom: 20px;">Items will be delivered to:</p>
+            <p style="font-size: 16px; color: #4A90E2; margin-bottom: 30px;">
                 ${req.body.address}, ${req.body.city}, ${req.body.country}
             </p>
-            <p style="font-size: 16px;">Thank you for your order!</p>
-            <p style="font-size: 16px; margin-top: 30px; color: #4A90E2; text-align: center;">
+            <p style="font-size: 16px;">Thank you for your order! If you have any questions, feel free to contact us.</p>
+            <p style="font-size: 16px; text-align: center; margin-top: 30px; color: #4A90E2;">
                 Best regards,<br>LSkin Team
             </p>
         </div>
     </div>
-`;
+    `;
+    
 
     // Send confirmation email to the customer
     await sendEmail(req.body.email, "Your LSkin Order Confirmation", emailBody);

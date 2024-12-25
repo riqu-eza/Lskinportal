@@ -9,6 +9,7 @@ const Login = () => {
   useEffect(() => {
     // Check if user is already logged in
     const token = localStorage.getItem("token");
+    
     if (token) {
       navigate("/profile"); // Redirect to profile page
     }
@@ -43,7 +44,7 @@ const Login = () => {
 
       // Save token to localStorage or sessionStorage
       localStorage.setItem("token", token);
-
+      localStorage.setItem("user", JSON.stringify(payload.user)); 
       // Redirect based on role
       navigate(payload.user.role === "admin" ? "/createlisting" : "/");
     } catch (error) {

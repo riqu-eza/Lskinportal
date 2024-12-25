@@ -1,22 +1,26 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/header";
-import { useUser } from "../context/UserContext";
+import { useEffect, useState } from "react";
 
 const Profile = () => {
-  const { currentUser, loading, logout } = useUser();
+  const [currentUser, setCurrentUser] = useState(null);
+  const navigate = useNavigate();
 
-  if (loading) return <div>Loading...</div>;
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login"); // Redirect to login if not authenticated
+      return;
+    }
+
+    const user = JSON.parse(localStorage.getItem("user")); // Retrieve user data
+    if (user) {
+      setCurrentUser(user); // Set currentUser state
+    }
+  }, [navigate]);
 
   if (!currentUser) {
-    return (
-      <div>
-        Please{" "}
-        <Link to="/login" className="text-indigo-600 hover:underline">
-          Log in
-        </Link>{" "}
-        to view your profile.
-      </div>
-    );
+    return <div>Loading...</div>; // Optionally handle loading state
   }
 
   const { firstName, lastName, email, role, address, orders } = currentUser;
@@ -26,9 +30,7 @@ const Profile = () => {
       {/* Header and Logout */}
       <Header />
       <div className="flex justify-between items-center mb-8">
-        <button onClick={logout} className="text-red-500">
-          Logout
-        </button>
+       
         <h2 className="text-2xl font-bold">My Account</h2>
       </div>
 

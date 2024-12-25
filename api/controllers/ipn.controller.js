@@ -1,9 +1,8 @@
 export const ipnreat = async (req, res, next)=>{
-    console.log("we got you")
-    const merchantReference = req.query.pesapal_merchant_reference;
-    const transactionTrackingId = req.query.pesapal_transaction_tracking_id;
+   const wellness = req.body
+   console.log("we got you",wellness)
 
-    if (merchantReference && transactionTrackingId) {
+    if (wellness ) {
         // Here, you can store transaction details in your database
         // Example: await insertTransaction(merchantReference, transactionTrackingId);
 
@@ -11,7 +10,7 @@ export const ipnreat = async (req, res, next)=>{
         // Example: const status = await queryPaymentStatus(transactionTrackingId);
 
         // Redirect user to a success page
-        res.redirect('/success'); // Replace with your success page URL
+        res.redirect('http://localhost:6054/profile/'); // Replace with your success page URL
     } else {
         // Redirect user to a failure page if parameters are missing
         res.redirect('/failure'); // Replace with your failure page URL
