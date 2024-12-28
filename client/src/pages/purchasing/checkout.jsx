@@ -81,11 +81,11 @@ const Checkout = () => {
   useEffect(() => {
     if (!ordertrackingid) return;
 
-    const socket = io("http://localhost:3006", {
+    const socket = io("https://lskinessentials.com", {
       path: "/socket.io",
       transports: ["websocket", "polling"],
     });
-
+    
     socket.on("connection", () => {
       console.log("Socket connected with ID:", socket.id);
     });
