@@ -1,19 +1,29 @@
 import { Server } from "socket.io";
 
-const io = new Server(3006, {
-  path: "/socket.io",
-  cors: {
+let ioInstance = null;
 
-    origin: ["http://localhost:6054",'http://lskinessentials.com/'] // Replace with your frontend URL
-  },
-});
+export const initSocket = (server) => {
+  if (!ioInstance) {
+    ioInstance = new Server(server, {
+      path: "/socket.io",
+      cors: {
+        origin: ["http://localhost:6054", "https://lskinessentials.com"],
+      },
+    });
 
-io.on("connection", (socket) => {
-  console.log("Client connected:", socket.id);
+    ioInstance.on("connection", (socket) => {
+      console.log("Socket connected:", socket.id);
+      socket.on("disconnect", () => {
+        console.log("Socket disconnected:", socket.id);
+      });
+    });
+  }
+  return ioInstance;
+};
 
-  socket.on("disconnect", () => {
-    console.log("Client disconnected:", socket.id);
-  });
-});
-
-export { io };
+export const getSocket = () => {
+  if (!ioInstance) {
+    throw new Error("Socket.io not initialized!");
+  }
+  return ioInstance;
+};

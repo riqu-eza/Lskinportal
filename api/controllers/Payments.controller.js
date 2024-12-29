@@ -1,6 +1,6 @@
-// Backend: Payment Controller
 import PesaPalPlugin from "pesapaldan";
-import { io } from "../Sockerserver.js";
+import { getSocket } from "../Sockerserver.js";
+
 export const processPayment = async (req, res, next) => {
   const { orderId, formData } = req.body;
 
@@ -37,7 +37,6 @@ export const processPayment = async (req, res, next) => {
         },
       });
 
-    // Return both tracking ID and redirect URL to the client
     return res.status(200).json({
       success: true,
       trackingId,
@@ -53,6 +52,7 @@ export const processPayment = async (req, res, next) => {
     });
   }
 };
+
 export const callipn = async (req, res) => {
   const { OrderTrackingId, OrderNotificationType, OrderMerchantReference } = req.body;
   console.log("req.body", req.body);
@@ -61,6 +61,9 @@ export const callipn = async (req, res) => {
     const orderTrackingId = OrderTrackingId;
 
     try {
+      // Retrieve Socket.IO instance dynamically
+      const io = getSocket();
+
       io.emit(`paymentStatus:${orderTrackingId}`, {
         status: "verifying payment",
       });
@@ -73,16 +76,15 @@ export const callipn = async (req, res) => {
       await plugin.initialize();
       const verificationResult = await plugin.verifyTransaction(orderTrackingId);
 
-      // Emit all verification data, including status_code and additional details
       io.emit(`paymentStatus:${orderTrackingId}`, {
         ...verificationResult,
-       
       });
 
       res.status(200).send("IPN processed successfully.");
     } catch (error) {
       console.error("Error processing IPN:", error.message);
 
+      const io = getSocket();
       io.emit(`paymentStatus:${orderTrackingId}`, {
         status: "failed",
         message: error.message,
@@ -94,6 +96,3 @@ export const callipn = async (req, res) => {
     res.status(400).send("Unhandled IPN Notification Type.");
   }
 };
-
-
-

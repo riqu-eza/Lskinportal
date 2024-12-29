@@ -42,6 +42,12 @@ const Checkout = () => {
 
   // eslint-disable-next-line no-unused-vars
   const [paymentStatus, setPaymentStatus] = useState(null);
+  const SOCKET_URL =
+  // eslint-disable-next-line no-undef
+  process.env.NODE_ENV === "production"
+    ? "https://lskinessentials.com"
+    : "http://localhost:3003";
+
 
   useEffect(() => {
     if (currentUser) {
@@ -81,41 +87,35 @@ const Checkout = () => {
   useEffect(() => {
     if (!ordertrackingid) return;
 
-    const socket = io("https://lskinessentials.com", {
+    const socket = io(SOCKET_URL, {
       path: "/socket.io",
       transports: ["websocket", "polling"],
+      timeout: 5000, // 5 seconds timeout
     });
-    
-    socket.on("connection", () => {
+
+    socket.on("connect", () => {
       console.log("Socket connected with ID:", socket.id);
     });
 
     socket.on("connect_error", (error) => {
       console.error("Socket connection error:", error.message);
+      setStep("Unable to connect to payment services. Please try again later.");
     });
 
     const eventName = `paymentStatus:${ordertrackingid}`;
     socket.on(eventName, (data) => {
-      console.log("Payment status update received:", data);
-
       if (!data) {
         console.warn("Received empty data for payment status update");
         return;
       }
 
-      const {
-        status_code,
-        payment_method,
-       
-        ...rest
-      } = data;
+      const { status_code, payment_method, ...rest } = data;
 
-      // setStatusCode(status_code); // Update the status_code
-      setCompletePayment({ payment_method,  });
-      // Handle payment status updates
+      setCompletePayment({ payment_method });
+
       if (status_code === 1) {
         setStep("Payment successful!");
-        completeCheckout({ ...completePayment, ...rest }); // Include additional details in the payload
+        completeCheckout({ ...completePayment, ...rest });
       } else if (status_code === 2) {
         setStep("Payment failed. Please try again.");
       } else if (status_code === 3) {
@@ -130,10 +130,9 @@ const Checkout = () => {
       console.log("Socket disconnecting...");
       socket.disconnect();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ordertrackingid,]);
 
-    // React Hook dependency array
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ordertrackingid]);
   useEffect(() => {
     const total = orderItems.reduce(
       (acc, item) => acc + item.price * item.quantity,

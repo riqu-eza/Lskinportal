@@ -7,24 +7,22 @@ import Packages from "../components/packages";
 import BlogComponent from "../components/bloglisting";
 
 const Home = () => {
-  const [setCurrentImageIndex] = useState(0);
   const [groupedProducts, setGroupedProducts] = useState({});
   const { currentUser } = useUser();
 
-  const images = ["/home.jpeg"];
   const imageUrl = ["/rectangle3.png"];
 
   // Image carousel effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) =>
-        prevIndex === images.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 3000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCurrentImageIndex((prevIndex) =>
+  //       prevIndex === images.length - 1 ? 0 : prevIndex + 1
+  //     );
+  //   }, 3000);
 
-    return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [images.length]);
+  //   return () => clearInterval(interval);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [images.length]);
 
   // Fetch product data and group by category
   const fetchData = async () => {

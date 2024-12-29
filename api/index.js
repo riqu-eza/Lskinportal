@@ -12,10 +12,8 @@ import inprouter from "./Routes/ipn.route.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import cors from "cors";
-import { createServer } from "http"; // Required for creating HTTP server
-import { Server } from "socket.io"; // Socket.IO library
-import { io } from "./Sockerserver.js"; // Import Socket.IO logic
-
+import { createServer } from "http";
+import { initSocket } from "./Sockerserver.js";
 
 dotenv.config();
 
@@ -25,13 +23,10 @@ mongoose
     console.log("Connected to MongoDB!");
   })
   .catch((err) => {
-    console.log("Error connecting to MongoDB:", err.message);
-    console.log("Stack Trace:", err.stack);
+    console.error("Error connecting to MongoDB:", err.message);
   });
 
-
 const __dirname = path.resolve();
-
 const app = express();
 
 app.use(
@@ -42,15 +37,14 @@ app.use(
   })
 );
 
-
 app.use(express.json());
 app.use(cookieParser());
 
 // Create HTTP server and attach Socket.IO
-const server = createServer(app); // Express runs on this server
-io.attach(server); // Attach Socket.IO to the HTTP server
+const server = createServer(app);
+initSocket(server); // Initialize Socket.IO with the server
 
-app.listen(3003, () => {
+server.listen(3003, () => {
   console.log("Server is running on port 3003");
 });
 
@@ -60,13 +54,12 @@ app.use("/api/order", orderRouter);
 app.use("/api/search", searchRouter);
 app.use("/api/newsletter", newsletterRouter);
 app.use("/api/payments", paymentsRouter);
-app.use('/api/blog', blogRouter);
+app.use("/api/blog", blogRouter);
 app.use("/api/ipn", inprouter);
-
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
-app.get("*", (req, res, next) => {
+app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
 
