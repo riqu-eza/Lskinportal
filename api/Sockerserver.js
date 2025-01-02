@@ -7,7 +7,13 @@ export const initSocket = (server) => {
     ioInstance = new Server(server, {
       path: "/socket.io",
       cors: {
-        origin: ["http://localhost:6054", "https://lskinessentials.com"],
+        origin: [
+          "http://localhost:6054", // Development
+          "https://lskinessentials.com", // Production
+        ],
+        methods: ["GET", "POST"], // Ensure required methods are allowed
+        allowedHeaders: ["Content-Type"], // Headers allowed
+        credentials: true, // Allow credentials for secure communication
       },
     });
 
