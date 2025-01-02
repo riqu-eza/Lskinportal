@@ -7,7 +7,7 @@ import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 import { Link } from "react-router-dom";
 
-const Packages = ({ products }) => {
+const Packages = ({ products,userId }) => {
   // Ensure that products is defined and not empty
   if (!products || products.length === 0) {
     return (
@@ -81,13 +81,13 @@ const Packages = ({ products }) => {
             {/* Product Price and Links */}
             <div className="text-lg font-semibold text-gray-700 flex gap-4">
               <Link
-                to="/"
+                to={`/cart/${product._id}/${userId}`}
                 className="bg-[#F5A3B7] hover:bg-[#383838] text-white py-2 px-12 rounded transition-all"
               >
                 Shop now
               </Link>
               <Link
-                to="/"
+                to={`/product/${product._id}/${userId}`}
                 className="text-gray-700 hover:text-[#F5A3B7] ml-4 flex items-center gap-2 transition-all"
               >
                 Explore more

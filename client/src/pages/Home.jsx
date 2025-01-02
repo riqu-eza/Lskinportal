@@ -5,6 +5,7 @@ import Header from "../components/header";
 import "./home.css";
 import Packages from "../components/packages";
 import BlogComponent from "../components/bloglisting";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [groupedProducts, setGroupedProducts] = useState({});
@@ -77,53 +78,52 @@ const Home = () => {
       <Header />
       {/* Carousel Section */}
       <div className="relative flex h-[290px] md:h-[350px] lg:h-[400px]">
-  {/* Left Section */}
-  <div className="w-[25%] md:w-[25%] lg:w-[25%] overflow-hidden bg-[#F5E0E5] p-4 md:p-6 lg:p-8">
-    {/* Content inside left section */}
-  </div>
+        {/* Left Section */}
+        <div className="w-[25%] md:w-[25%] lg:w-[25%] overflow-hidden bg-[#F5E0E5] p-4 md:p-6 lg:p-8">
+          {/* Content inside left section */}
+        </div>
 
-  {/* Text Overlay */}
-  <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-    <div className="text-center px-4 md:px-8">
-      <h2
-        className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight"
-        style={{
-          color: "#383838",
-          fontFamily: "Poppins",
-        }}
-      >
-        Experience the Difference
-      </h2>
-      <p
-        className="text-sm md:text-lg lg:text-xl mt-2 leading-relaxed"
-        style={{
-          color: "#383838",
-          fontFamily: "Poppins",
-        }}
-      >
-        Discover our unique offerings and enjoy unmatched experiences that
-        redefine your expectations. Step into a world of excellence.
-      </p>
-      <button className="mt-4 bg-[#F5A3B7] hover:bg-[#252525] text-white font-semibold py-2 px-4 rounded transition-all pointer-events-auto">
-        Shop now
-      </button>
-    </div>
-  </div>
+        {/* Text Overlay */}
+        <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+          <div className="text-center px-4 md:px-8">
+            <h2
+              className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight"
+              style={{
+                color: "#383838",
+                fontFamily: "Poppins",
+              }}
+            >
+              Experience the Difference
+            </h2>
+            <p
+              className="text-sm md:text-lg lg:text-xl mt-2 leading-relaxed"
+              style={{
+                color: "#383838",
+                fontFamily: "Poppins",
+              }}
+            >
+              Discover our unique offerings and enjoy unmatched experiences that
+              redefine your expectations. Step into a world of excellence.
+            </p>
+            <Link 
+              to='/alllisting'
+              className="mt-4 bg-[#F5A3B7] hover:bg-[#252525] text-white font-semibold py-2 px-4 rounded transition-all pointer-events-auto">
+              Shop now
+            </Link>
+          </div>
+        </div>
 
-  {/* Right Section with Background Image */}
-  <div
-    className="flex-grow relative z-15 overflow-hidden"
-    style={{
-      backgroundImage: `url(${imageUrl})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-    }}
-  ></div>
-</div>
-
-
-
+        {/* Right Section with Background Image */}
+        <div
+          className="flex-grow relative z-15 overflow-hidden"
+          style={{
+            backgroundImage: `url(${imageUrl})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        ></div>
+      </div>
 
       {/* Homecontainer Section */}
       {/* <div
@@ -165,7 +165,10 @@ const Home = () => {
       </div>
 
       <div className="md:mx-40">
-        <Packages products={groupedProducts["Gift set packages"]} />
+        <Packages
+          products={groupedProducts["Gift set packages"]}
+          userId={currentUser ? currentUser._id : null}
+        />
       </div>
       <div className="md:mx-40 mx-4">
         <BlogComponent />

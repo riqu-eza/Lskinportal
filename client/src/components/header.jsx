@@ -35,7 +35,10 @@ const Header = () => {
   // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target)
+      ) {
         setMenuOpen(false);
         setDropdownOpen(false);
       }
@@ -72,11 +75,11 @@ const Header = () => {
               Shop
             </button>
             {isDropdownOpen && (
-              <ul className="absolute mt-2 w-48 bg-white shadow-md rounded-md border border-gray-300 z-10">
+              <ul className="absolute mt-2 w-48 bg- shadow-md rounded-md text-[#4B4B4B] border border-gray-300 z-10">
                 {categoryOptions.map((category) => (
                   <li
                     key={category}
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    className="px-4 py-2  hover:border-b-2 hover:border-[#F5A3B7] text-[#] cursor-pointer"
                     onClick={() => handleCategorySelect(category)}
                   >
                     <Link to={`/category/${category}`}>{category}</Link>
@@ -156,7 +159,10 @@ const Header = () => {
           ref={mobileMenuRef}
           className="bg-white shadow-lg rounded-md border border-gray-200 z-50 p-4 md:hidden"
         >
-          <Link to="/About" className="block py-2 text-gray-800 hover:underline">
+          <Link
+            to="/About"
+            className="block py-2 text-gray-800 hover:underline"
+          >
             About
           </Link>
           <div className="relative">
@@ -183,7 +189,10 @@ const Header = () => {
           <Link to="/cart" className="block py-2 text-gray-800 hover:underline">
             Cart
           </Link>
-          <Link to="/login" className="block py-2 text-gray-800 hover:underline">
+          <Link
+            to="/login"
+            className="block py-2 text-gray-800 hover:underline"
+          >
             Account
           </Link>
         </div>

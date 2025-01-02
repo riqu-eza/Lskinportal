@@ -19,6 +19,7 @@ import Adminpage from "./admin/admin";
 import Addblog from "./admin/createblog";
 import ManageListing from "./admin/manageListing";
 import ManagerOrders from "./admin/Manageorders";
+import Listtall from "./components/Listall";
 
 export default function App() {
   return (
@@ -44,6 +45,7 @@ export default function App() {
                 path="/category/:categoryName"
                 element={<CategoryListing />}
               ></Route>
+              <Route path='/alllisting' element={<Listtall/>}  ></Route>
               <Route path='/addblog' element={<Addblog/>} ></Route>
               <Route path="/manageorders" element={<ManagerOrders/>} ></Route>
               <Route path='/managelisting' element={<ManageListing/>} ></Route>
