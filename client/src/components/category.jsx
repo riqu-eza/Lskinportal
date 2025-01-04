@@ -42,10 +42,10 @@ const CategoryRow = ({ categoryName, products, userId }) => {
           640: { slidesPerView: 2 }, // Medium screens
           1024: { slidesPerView: 3 }, // Large screens
         }}
-        className="w-full"
+        className="w-full "
       >
         {products.map((product, index) => (
-          <SwiperSlide key={index} style={{ width: "auto" }}>
+          <SwiperSlide key={index} style={{ width: "auto" }}  className="flex justify-center">
             <ProductCard product={product} userId={userId} />
           </SwiperSlide>
         ))}

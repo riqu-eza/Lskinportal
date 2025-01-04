@@ -7,33 +7,30 @@ const CategoryListing = () => {
   const { categoryName } = useParams();
   const location = useLocation();
   const { products } = location.state || {};
-  console.log(location)
-  // const [products, setProducts] = useState([]); 
- 
 
-  
-
-  return <div>
-    <>
+  return (
     <div>
-      <Header/>
+      <>
+        <div>
+          <Header />
+        </div>
+        <div>
+          <h1 className="text-3xl font-bold text-center mt-10">
+            {categoryName}
+          </h1>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ml-2 p-5 justify-items-center">
+          {products.length > 0 ? (
+            products.map((product) => (
+              <ProductCard key={product._id} product={product} />
+            ))
+          ) : (
+            <p>No products found for this category.</p>
+          )}
+        </div>
+      </>
     </div>
-    <div>
-      <h1 className="text-3xl font-bold text-center mt-10">
-        {categoryName} 
-      </h1>
-    </div>
-    <div className="grid grid-cols-4 gap-4 ml-2 p-5">
-        {products.length > 0 ? (
-          products.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))
-        ) : (
-          <p>No products found for this category.</p>
-        )}
-      </div>
-    </>
-  </div>;
+  );
 };
 
 export default CategoryListing;

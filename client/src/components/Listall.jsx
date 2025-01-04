@@ -42,7 +42,7 @@ const Listtall = () => {
     return (
         <>
         <Header/>
-            <div className="grid grid-cols-4 gap-4 ml-2 p-5">
+            <div  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ml-2 p-5 justify-items-center">
                 {currentProducts.length > 0 ? (
                     currentProducts.map((product) => (
                         <ProductCard key={product._id} product={product} />

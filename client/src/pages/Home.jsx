@@ -13,19 +13,7 @@ const Home = () => {
 
   const imageUrl = ["/rectangle3.png"];
 
-  // Image carousel effect
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setCurrentImageIndex((prevIndex) =>
-  //       prevIndex === images.length - 1 ? 0 : prevIndex + 1
-  //     );
-  //   }, 3000);
-
-  //   return () => clearInterval(interval);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [images.length]);
-
-  // Fetch product data and group by category
+  
   const fetchData = async () => {
     try {
       const response = await fetch("/api/listing/gellisting");
@@ -63,7 +51,6 @@ const Home = () => {
 
       setGroupedProducts(combinedGrouped);
 
-      console.log(combinedGrouped);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
