@@ -486,7 +486,7 @@ const Checkout = () => {
                 />
                 <div className="flex-grow">
                   <p className="font-semibold">{item.name}</p>
-                  <p className="text-gray-700">${item.price}</p>
+                  <p className="text-gray-700">Ksh{item.price}</p>
                   <div className="flex items-center">
                     <button
                       onClick={() => updateQuantity(item.id, 1)}

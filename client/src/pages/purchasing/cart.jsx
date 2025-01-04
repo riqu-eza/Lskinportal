@@ -161,7 +161,7 @@ const Cart = () => {
                     <p className="text-black">
                       Price:{" "}
                       <span className="text-green-500 font-bold">
-                        ${item.price}
+                        Ksh{item.price}
                       </span>
                     </p>
                   </div>
@@ -198,7 +198,7 @@ const Cart = () => {
           {/* Total Price and Checkout */}
           <h2 className="mt-6 text-xl font-bold text-center">
             Total Amount:{" "}
-            <span className="text-green-500">${totalPrice}</span>
+            <span className="text-green-500">Ksh{totalPrice}</span>
           </h2>
           <button
             onClick={handleCheckout}
