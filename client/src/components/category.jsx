@@ -15,14 +15,15 @@ const CategoryRow = ({ categoryName, products, userId }) => {
   };
 
   return (
-    <div  className="mx-auto px-1 py-4 ">
-      <div className="text-center" >
+    <div className="mx-auto px-1 py-4 ">
+      <div className="text-center">
         <h2 className="text-[24px] text-center font-bold font-[Poppins] md:p-1">
           {categoryName}
         </h2>
 
         <Link
           to={`/category/${categoryName}`}
+          state={{ products }} // Directly pass state here
           className="text-[#697586] font-[Poppins] text-[18px] text-center hover:text-[#F5A3B7]"
         >
           see all
@@ -45,7 +46,7 @@ const CategoryRow = ({ categoryName, products, userId }) => {
       >
         {products.map((product, index) => (
           <SwiperSlide key={index} style={{ width: "auto" }}>
-            <ProductCard product={product} userId={userId}  />
+            <ProductCard product={product} userId={userId} />
           </SwiperSlide>
         ))}
       </Swiper>

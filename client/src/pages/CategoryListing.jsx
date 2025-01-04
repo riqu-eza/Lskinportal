@@ -1,32 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Header from "../components/header";
 import ProductCard from "../components/product";
 
 const CategoryListing = () => {
   const { categoryName } = useParams();
-  const [products, setProducts] = useState([]); 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        `/api/listing/category/${categoryName}`
-      );
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      console.log(data);
-      setProducts(data); // Display fetched data
-    } catch (e) {
-      console.error("Error fetching data:", e);
-      alert("An error occurred while fetching data.");
-    }
-  };
+  const location = useLocation();
+  const { products } = location.state || {};
+  console.log(location)
+  // const [products, setProducts] = useState([]); 
+ 
 
-  useEffect(() => {
-    fetchData();
-  }, [categoryName]);
+  
 
   return <div>
     <>

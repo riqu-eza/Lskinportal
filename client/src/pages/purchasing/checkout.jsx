@@ -461,8 +461,8 @@ const Checkout = () => {
                 }}
                 className="w-full p-3 border border-gray-300 rounded"
               >
-                <option value="10">Standard - $10</option>
-                <option value="20">Express - $20</option>
+                <option value="10">Standard - Ksh10</option>
+                <option value="20">Express - Ksh20</option>
               </select>
             </div>
           </div>

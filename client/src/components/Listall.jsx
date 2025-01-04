@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import ProductCard from "./product";
+import Header from "./header";
 
 const Listtall = () => {
     const [products, setProducts] = useState([]);
@@ -40,6 +41,7 @@ const Listtall = () => {
 
     return (
         <>
+        <Header/>
             <div className="grid grid-cols-4 gap-4 ml-2 p-5">
                 {currentProducts.length > 0 ? (
                     currentProducts.map((product) => (
