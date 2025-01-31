@@ -45,7 +45,7 @@ const ProductCard = ({ product, userId }) => {
     <div className="w-[289px] h-[440px] flex flex-col border border-gray-300 relative group overflow-hidden">
       {/* Floating Discount Tag */}
       {product.discount && (
-        <div className="absolute top-2 right-2 bg-[#F5A3B7] text-white text-xs px-3 py-1 rounded z-10">
+        <div className="absolute top-2 right-2 bg-[#F5A3B7] text-white text-xs px-3 py-1 rounded z-10 ">
           {`${product.discount} OFF`}
         </div>
       )}

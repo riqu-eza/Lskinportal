@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   const [groupedProducts, setGroupedProducts] = useState({});
+  const [groupedByCategory, setGroupedByCategory] = useState({});
   const { currentUser } = useUser();
 
   const imageUrl = ["/rectangle3.png"];
@@ -31,7 +32,7 @@ const Home = () => {
         acc[category].push(product);
         return acc;
       }, {});
-
+      setGroupedByCategory(groupedByCategory);
       // Top-rated products
       const topRatedProducts = [...data]
         .filter((product) => product.averageRating > 0) // Only include rated products
@@ -62,7 +63,7 @@ const Home = () => {
 
   return (
     <>
-      <Header />
+      <Header groupedProducts={groupedByCategory} />
       {/* Carousel Section */}
       <div className="relative flex h-[290px] md:h-[350px] lg:h-[400px]">
         {/* Left Section */}

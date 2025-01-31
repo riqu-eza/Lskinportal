@@ -46,7 +46,7 @@ const Checkout = () => {
   // eslint-disable-next-line no-undef
   process.env.NODE_ENV === "production"
     ? "https://lskinessentials.com"
-    : "http://localhost:3003";
+    : "http://localhost:3011";
 
 
   useEffect(() => {

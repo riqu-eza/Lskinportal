@@ -20,48 +20,60 @@ import Addblog from "./admin/createblog";
 import ManageListing from "./admin/manageListing";
 import ManagerOrders from "./admin/Manageorders";
 import Listtall from "./components/Listall";
+import { ProductProvider } from "./context/ProductContext";
 
 export default function App() {
   return (
-    <CartProvider>
-      <UserProvider>
-        <BrowserRouter>
-          <div className="bg-root-pink ">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/createlisting" element={<CreateListing />}></Route>
-              <Route
-                path="product/:productId/:userId"
-                element={<ProductListing />}
-              ></Route>
-              <Route path="/cart/:productId/:userId" element={<Cart />}></Route>
-              <Route path="/cart" element={<Cart />} />
-              <Route
-                path="/buy/:productId/:userId"
-                element={<Checkout />}
-              ></Route>
-              <Route path="/checkout/:orderId" element={<Checkout />}></Route>
-              <Route
-                path="/category/:categoryName"
-                element={<CategoryListing />}
-              ></Route>
-              <Route path='/alllisting' element={<Listtall/>}  ></Route>
-              <Route path='/addblog' element={<Addblog/>} ></Route>
-              <Route path="/manageorders" element={<ManagerOrders/>} ></Route>
-              <Route path='/managelisting' element={<ManageListing/>} ></Route>
-              <Route path="/admin" element={<Adminpage/>} ></Route>
-              <Route path="/search" element={<SearchResult />}></Route>
-              <Route path="/login" element={<Login />}></Route>
-              <Route path="/signup" element={<Signup />}></Route>
-              <Route path="/profile" element={<Profile />}></Route>
-              <Route path="/About" element={<About />}></Route>
-              <Route path="/new-arrival" element={<NewListing />}></Route>
-              <Route path="/PopularChoises" element={<Popular/>} ></Route>
-            </Routes>
-          </div>
-          <Footer />
-        </BrowserRouter>
-      </UserProvider>
-    </CartProvider>
+    <ProductProvider>
+      <CartProvider>
+        <UserProvider>
+          <BrowserRouter>
+            <div className="bg-root-pink ">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route
+                  path="/createlisting"
+                  element={<CreateListing />}
+                ></Route>
+                <Route
+                  path="product/:productId/:userId"
+                  element={<ProductListing />}
+                ></Route>
+                <Route
+                  path="/cart/:productId/:userId"
+                  element={<Cart />}
+                ></Route>
+                <Route path="/cart" element={<Cart />} />
+                <Route
+                  path="/buy/:productId/:userId"
+                  element={<Checkout />}
+                ></Route>
+                <Route path="/checkout/:orderId" element={<Checkout />}></Route>
+                <Route
+                  path="/category/:categoryName"
+                  element={<CategoryListing />}
+                ></Route>
+                <Route path="/alllisting" element={<Listtall />}></Route>
+                <Route path="/addblog" element={<Addblog />}></Route>
+                <Route path="/manageorders" element={<ManagerOrders />}></Route>
+                <Route
+                  path="/managelisting"
+                  element={<ManageListing />}
+                ></Route>
+                <Route path="/admin" element={<Adminpage />}></Route>
+                <Route path="/search" element={<SearchResult />}></Route>
+                <Route path="/login" element={<Login />}></Route>
+                <Route path="/signup" element={<Signup />}></Route>
+                <Route path="/profile" element={<Profile />}></Route>
+                <Route path="/About" element={<About />}></Route>
+                <Route path="/new-arrival" element={<NewListing />}></Route>
+                <Route path="/PopularChoises" element={<Popular />}></Route>
+              </Routes>
+            </div>
+            <Footer />
+          </BrowserRouter>
+        </UserProvider>
+      </CartProvider>
+    </ProductProvider>
   );
 }
